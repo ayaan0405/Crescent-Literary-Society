@@ -1,20 +1,15 @@
 {
   "slides": [
     {
-      "image": "assets/hero/hero-bg.jpg",
-      "altText": "CLS Campus Background"
-    },
-    {
       "image": "assets/clubs/house-of-debators.jpg",
       "altText": "House of Debators"
     },
     {
-      "image": "assets/clubs/writers-guild.jpg",
-      "altText": "Writers Guild"
+      "image": "/assets/uploads/img-20241112-wa0024.jpg"
     },
     {
-      "image": "assets/clubs/improv.jpg",
-      "altText": "Improv Theatre"
+      "image": "assets/clubs/writers-guild.jpg",
+      "altText": "Writers Guild"
     }
   ]
 }
