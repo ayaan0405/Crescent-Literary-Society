@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const response = await fetch('data/carousel.json');
-    if (!response.ok) return; // Silent fail, fallback to hardcoded if needed
-    const data = await response.json();
+    if (response.ok) {
+      const data = await response.json();
     
     const carouselContainer = document.getElementById('hero-carousel');
     if (carouselContainer && data.slides && data.slides.length > 0) {
@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       // Re-init carousel logic since DOM changed
       initCarousel();
+    }
     }
   } catch (err) {
     console.error("CMS Loader Error (Carousel):", err);
