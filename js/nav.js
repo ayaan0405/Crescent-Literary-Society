@@ -34,7 +34,8 @@
   }
 
   /* ---- Mobile: dropdown parent click toggle ---- */
-  if (dropParent) {
+  const dropParents = document.querySelectorAll('.has-dropdown');
+  dropParents.forEach(dropParent => {
     const parentLink = dropParent.querySelector(':scope > a');
     if (parentLink) {
       parentLink.addEventListener('click', (e) => {
@@ -44,7 +45,7 @@
         }
       });
     }
-  }
+  });
 
   /* ---- Close mobile nav on link click ---- */
   document.querySelectorAll('.nav-menu a').forEach((link) => {

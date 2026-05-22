@@ -33,3 +33,58 @@ collections:
               - {label: "Author", name: "author", widget: "string"}
               - {label: "Thumbnail Image", name: "thumbnail", widget: "image", required: false}
               - {label: "Body", name: "body", widget: "markdown"}
+
+      - label: "House of Debators Carousel"
+        name: "debators-carousel"
+        file: "data/debators-carousel.json"
+        fields:
+          - label: "Slides"
+            name: "slides"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Alt Text", name: "altText", widget: "string", required: false}
+
+      - label: "Improv Carousel"
+        name: "improv-carousel"
+        file: "data/improv-carousel.json"
+        fields:
+          - label: "Slides"
+            name: "slides"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Alt Text", name: "altText", widget: "string", required: false}
+
+      - label: "Writer's Guild Carousel"
+        name: "writers-carousel"
+        file: "data/writers-carousel.json"
+        fields:
+          - label: "Slides"
+            name: "slides"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Alt Text", name: "altText", widget: "string", required: false}
+
+      - label: "Quizzers Circuit Carousel"
+        name: "quizzers-carousel"
+        file: "data/quizzers-carousel.json"
+        fields:
+          - label: "Slides"
+            name: "slides"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Alt Text", name: "altText", widget: "string", required: false}
+
+      - label: "Editorial Board Carousel"
+        name: "editorial-carousel"
+        file: "data/editorial-carousel.json"
+        fields:
+          - label: "Slides"
+            name: "slides"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Alt Text", name: "altText", widget: "string", required: false}

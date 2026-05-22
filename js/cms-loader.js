@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch('data/carousel.json');
+    let carouselFile = 'data/carousel.json';
+    const path = window.location.pathname;
+    if (path.includes('house-of-debators')) carouselFile = 'data/debators-carousel.json';
+    else if (path.includes('improv')) carouselFile = 'data/improv-carousel.json';
+    else if (path.includes('writers-guild')) carouselFile = 'data/writers-carousel.json';
+    else if (path.includes('quizzers-circuit')) carouselFile = 'data/quizzers-carousel.json';
+    else if (path.includes('editorial-board')) carouselFile = 'data/editorial-carousel.json';
+
+    const response = await fetch(carouselFile);
     if (response.ok) {
       const data = await response.json();
     
