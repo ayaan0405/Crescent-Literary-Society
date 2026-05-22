@@ -100,4 +100,34 @@
       document.body.style.overflow = '';
     }
   });
+
+  /* ---- Smooth Scroll for Hash Links ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return; // Skip empty hash
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        
+        // Close dropdowns if on mobile
+        if (window.innerWidth <= 960) {
+          document.querySelectorAll('.has-dropdown').forEach(d => d.classList.remove('is-open'));
+          if (navMenu) navMenu.classList.remove('is-open');
+          if (hamburger) hamburger.classList.remove('is-open');
+          document.body.style.overflow = '';
+        }
+
+        const headerOffset = 80;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    });
+  });
 })();

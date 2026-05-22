@@ -18,8 +18,10 @@
 }
 
 .site-nav.scrolled {
-  background: transparent;
-  box-shadow: none;
+  background: rgba(10, 10, 10, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
 }
 
 .nav-inner {
