@@ -141,29 +141,57 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await response.json();
         
         if (data.posts && data.posts.length > 0) {
-          mirakiContainer.innerHTML = '';
           const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-          sortedPosts.forEach(post => {
-            const dateObj = new Date(post.date);
-            const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
-            if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
-            const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
-            
-            mirakiContainer.innerHTML += `
-              <div class="blog-card fade-up visible" style="opacity: 1; transform: none;">
-                <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
-                <div class="blog-content">
-                  <span class="blog-date">${dateStr}</span>
-                  <h3 class="blog-title">${post.title}</h3>
-                  <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
-                  <div class="blog-author">— ${post.author || 'Editorial Board'}</div>
+          
+          if (mirakiContainer) {
+            mirakiContainer.innerHTML = '';
+            sortedPosts.forEach(post => {
+              const dateObj = new Date(post.date);
+              const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+              let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
+              if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
+              const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
+              
+              mirakiContainer.innerHTML += `
+                <div class="blog-card fade-up visible" style="opacity: 1; transform: none;">
+                  <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
+                  <div class="blog-content">
+                    <span class="blog-date">${dateStr}</span>
+                    <h3 class="blog-title">${post.title}</h3>
+                    <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
+                    <div class="blog-author">— ${post.author || 'Editorial Board'}</div>
+                  </div>
                 </div>
+              `;
+            });
+          }
+          
+          // Auto-update the preview in Writers Guild page
+          const previewContainer = document.getElementById('latest-magazine-preview');
+          if (previewContainer) {
+            const latest = sortedPosts[0];
+            let imgSrc = latest.thumbnail || 'assets/magazine/obverse-cover.jpg';
+            if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
+            const plainText = latest.body ? latest.body.replace(/[#*_\[\]>]/g, '') : '';
+            
+            previewContainer.innerHTML = `
+              <div style="flex-shrink:0; width:90px;">
+                <img src="${imgSrc}" alt="${latest.title}" style="width:90px; border-radius:4px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" loading="lazy">
+              </div>
+              <div>
+                <span class="eyebrow" style="margin-bottom:0.4rem;">Latest Magazine Issue</span>
+                <h3 style="font-size:1.4rem; margin-bottom:0.5rem;">${latest.title}</h3>
+                <p style="font-size:0.95rem;">${plainText.substring(0, 200)}...</p>
+                <p style="font-size:0.85rem; margin-top:0.75rem; color:rgba(153,153,153,0.7);">
+                  Published: ${new Date(latest.date).toLocaleDateString()} &middot; By: ${latest.author || 'Editorial Board'}
+                </p>
               </div>
             `;
-          });
+          }
         } else {
-          mirakiContainer.innerHTML = '<p style="text-align:center; width:100%;">No issues yet.</p>';
+          if (mirakiContainer) {
+            mirakiContainer.innerHTML = '<p style="text-align:center; width:100%;">No issues yet.</p>';
+          }
         }
       } catch (innerErr) {}
     }
