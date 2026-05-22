@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (path.includes('quizzers-circuit')) carouselFile = 'data/quizzers-carousel.json';
     else if (path.includes('editorial-board')) carouselFile = 'data/editorial-carousel.json';
 
-    const response = await fetch(carouselFile);
+    const response = await fetch(carouselFile + '?t=' + new Date().getTime());
     if (response.ok) {
       const data = await response.json();
     
