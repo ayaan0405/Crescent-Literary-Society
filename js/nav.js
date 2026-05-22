@@ -13,7 +13,11 @@
 
   /* ---- Scroll: add .scrolled class to nav ---- */
   const handleScroll = () => {
-    if (window.scrollY > 60) {
+    // If there's a hero element, fade in after passing most of it. Otherwise, use 100px.
+    const hero = document.querySelector('.page-hero, .hero-carousel');
+    const threshold = hero ? (hero.offsetHeight - 90) : 100;
+    
+    if (window.scrollY > threshold) {
       nav && nav.classList.add('scrolled');
     } else {
       nav && nav.classList.remove('scrolled');
@@ -119,7 +123,7 @@
           document.body.style.overflow = '';
         }
 
-        const headerOffset = 80;
+        const headerOffset = 10;
         const elementPosition = targetElement.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
