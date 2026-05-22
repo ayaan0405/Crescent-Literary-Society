@@ -133,8 +133,10 @@
   top: calc(var(--nav-height) - 2px);
   left: 0;
   min-width: 210px;
-  background: transparent;
-  border: none;
+  background: rgba(10, 10, 10, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 0;
   padding: 0.5rem 0;
   list-style: none;

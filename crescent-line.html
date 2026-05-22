@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crescent Line — Crescent Literary Society</title>
+  <meta name="description" content="Read the latest news, stories, and articles from the Crescent Literary Society.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition);
+    }
+    .blog-card:hover {
+      transform: translateY(-5px);
+    }
+    .blog-thumb {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #222;
+    }
+    .blog-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .blog-date {
+      font-family: var(--font-nav);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+    .blog-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .blog-author {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: auto;
+      padding-top: 1rem;
+    }
+    .blog-body-preview {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="site-nav" id="main-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Crescent Literary Society — Home">
+        <img src="assets/logo/logo.jpg" alt="Crescent Literary Society Logo" width="50" height="50" loading="eager">
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">Crescent</span>
+          <span class="nav-logo-sub">LITERARY SOCIETY</span>
+        </div>
+      </a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="index.html" id="nav-home">Home</a></li>
+        <li class="has-dropdown">
+          <a href="about.html" id="nav-about">About</a>
+          <ul class="nav-dropdown" role="list">
+            <li><a href="about.html#what-we-do">What We Do</a></li>
+            <li><a href="about.html#history">History</a></li>
+            <li><a href="about.html#members">Members</a></li>
+            <li><a href="about.html#awards">Awards</a></li>
+            <li><a href="connect.html">Contact</a></li>
+          </ul>
+        </li>
+        <li class="has-dropdown">
+          <a href="index.html#wings" id="nav-wings">Wings</a>
+          <ul class="nav-dropdown" role="list">
+            <li><a href="house-of-debators.html">House of Debators</a></li>
+            <li><a href="improv.html">Improv &amp; Theatre</a></li>
+            <li><a href="writers-guild.html">Writer's Guild</a></li>
+            <li><a href="quizzers-circuit.html">Quizzers Circuit</a></li>
+          </ul>
+        </li>
+        <li><a href="blog.html" class="active" id="nav-blog">Blogs</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero" id="crescent-line-hero" style="min-height: 300px; height: 40vh;">
+    <div class="page-hero-bg" style="background-image: url('assets/hero/hero-bg.jpg');" role="img" aria-label="CLS Campus"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="container page-hero-content">
+      <span class="eyebrow">The Written Word</span>
+      <h1>Crescent Line</h1>
+      <p class="hero-sub"><em>"The official newsletter of the Crescent Literary Society."</em></p>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <section style="padding: 5rem 0;">
+      <div class="container">
+        <div id="crescent-line-grid" class="blog-grid">
+          <p style="text-align: center; color: var(--text-secondary); width: 100%;">Loading posts...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom-inner" style="text-align:center;">
+        <p class="footer-copyright">© 2006–2025 Crescent Literary Society. All rights reserved.</p>
+        <p class="footer-istd" style="font-size:0.78rem; color:rgba(153,153,153,0.55); text-align:center; width:100%; margin-top: 0.5rem;">A part of <a href="https://instagram.com/istd_crescent" target="_blank" rel="noopener" style="color:rgba(200,200,200,0.6); text-decoration:none;">@istd_crescent</a> &middot; B. S. Abdur Rahman Crescent Institute of Science and Technology, Vandalur.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script src="js/scroll-animations.js"></script>
+  <!-- CMS Loader handles fetching blog.json -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="js/cms-loader.js"></script>
+</body>
+</html>
