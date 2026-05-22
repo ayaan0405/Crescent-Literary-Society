@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect — Crescent Literary Society</title>
+  <meta name="description" content="Get in touch with the Crescent Literary Society. Join a wing, reach out on social media, or send us a message. Join the conversation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="site-nav" id="main-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Crescent Literary Society — Home">
+        <img src="assets/logo/logo.jpg" alt="Crescent Literary Society Logo" width="50" height="50" loading="eager">
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">Crescent</span>
+          <span class="nav-logo-sub">LITERARY SOCIETY</span>
+        </div>
+      </a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="index.html" id="nav-home">Home</a></li>
+        <li class="has-dropdown">
+          <a href="about.html" id="nav-about">About</a>
+          <ul class="nav-dropdown" role="list">
+            <li><a href="about.html#what-we-do">What We Do</a></li>
+            <li><a href="about.html#history">History</a></li>
+            <li><a href="about.html#members">Members</a></li>
+            <li><a href="about.html#awards">Awards</a></li>
+            <li><a href="connect.html">Contact</a></li>
+          </ul>
+        </li>
+                <li class="has-dropdown">
+          <a href="#" id="nav-wings">Wings</a>
+          <ul class="nav-dropdown" role="list">
+            <li><a href="house-of-debators.html">House of Debators</a></li>
+            <li><a href="improv.html">Improv &amp; Theatre</a></li>
+            <li><a href="writers-guild.html">Writer's Guild</a></li>
+            <li><a href="quizzers-circuit.html">Quizzers Circuit</a></li>
+            <li><a href="editorial-board.html">Editorial Board</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER (text-only, no bg image) -->
+  <header style="padding-top: calc(var(--nav-height) + 5rem); padding-bottom: 3rem; background: var(--bg-secondary); border-bottom: 1px solid var(--divider-gold);">
+    <div class="container">
+      <div style="max-width:600px;">
+        <span class="eyebrow" style="animation: heroRise 0.75s ease 0.2s both; display:block;">Join the conversation</span>
+        <h1 style="animation: heroRise 0.75s ease 0.35s both;">Connect With Us</h1>
+        <p style="font-size:1.1rem; color:rgba(255,255,255,0.8); margin-top:0.75rem; animation: heroRise 0.75s ease 0.5s both;">
+          Whether you're curious, ready to join, or just want to say hello — we'd love to hear from you. With Inclusion comes Strength.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <section style="padding: 5rem 0;">
+      <div class="container">
+        <div class="connect-layout">
+
+          <!-- FORM -->
+          <div>
+            <div class="fade-up">
+              <span class="eyebrow" style="margin-bottom:0.5rem;">Send a Message</span>
+              <h2 style="font-size:1.75rem; margin-bottom:0.5rem;">We'd Love to Hear From You</h2>
+              <div class="divider"></div>
+            </div>
+
+            <form class="contact-form fade-up delay-1" id="contact-form" novalidate>
+              <div class="form-group">
+                <label for="contact-name">Your Name</label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  name="name"
+                  placeholder="e.g. Fatima Malik"
+                  required
+                  autocomplete="name"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="contact-email">Email Address</label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  name="email"
+                  placeholder="e.g. you@college.edu"
+                  required
+                  autocomplete="email"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="contact-wing">Wing of Interest</label>
+                <select id="contact-wing" name="wing" required>
+                  <option value="" disabled selected>Select a wing…</option>
+                  <option value="house-of-debators">House of Debators</option>
+                  <option value="improv">Improv</option>
+                  <option value="writers-guild">Writer's Guild</option>
+                  <option value="quizzers-circuit">Quizzers Circuit</option>
+                  <option value="general">General Enquiry</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-message">Message</label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  placeholder="Tell us a little about yourself, or ask us anything…"
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-gold" id="contact-submit-btn" style="width:100%; justify-content:center; font-size:14px; padding:0.9rem 2rem;">
+                Send Message →
+              </button>
+            </form>
+
+            <!-- Success state (shown after submit) -->
+            <div class="form-success" id="form-success" role="alert" aria-live="polite">
+              <div class="form-success-icon">✉️</div>
+              <h3 style="margin-bottom:0.5rem;">Message Received!</h3>
+              <p>Thank you for reaching out. A member of CLS will be in touch with you shortly.</p>
+              <a href="index.html" class="btn btn-gold" style="margin-top:1.5rem;" id="form-success-home-btn">Return Home</a>
+            </div>
+          </div>
+
+          <!-- SIDEBAR INFO -->
+          <aside class="fade-up delay-2">
+
+            <!-- Social Links -->
+            <div class="contact-info-card" id="social-links-card">
+              <h4>Follow Us</h4>
+              <div class="social-links">
+                <a href="https://instagram.com/crescentlitsociety" target="_blank" rel="noopener noreferrer" class="social-link-item" id="connect-instagram-link">
+                  <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                  <div class="social-link-text">
+                    <span class="social-link-label">Instagram</span>
+                    <span class="social-link-handle">@crescentlitsociety</span>
+                  </div>
+                </a>
+                <a href="https://facebook.com/crescentlitsociety" target="_blank" rel="noopener noreferrer" class="social-link-item" id="connect-facebook-link">
+                  <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  <div class="social-link-text">
+                    <span class="social-link-label">Facebook</span>
+                    <span class="social-link-handle">/crescentlitsociety</span>
+                  </div>
+                </a>
+                <a href="mailto:crescentliterarysociety@crescent.education" class="social-link-item" id="connect-email-link">
+                  <!-- REPLACE: Update with official CLS email address -->
+                  <svg viewBox="0 0 24 24" fill="var(--accent-gold)"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                  <div class="social-link-text">
+                    <span class="social-link-label">Email</span>
+                    <span class="social-link-handle">crescentliterarysociety@crescent.education</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Wings info -->
+            <div class="contact-info-card" id="wings-info-card">
+              <h4>Our Wings</h4>
+              <div style="display:flex; flex-direction:column; gap:0.65rem; margin-top:0.5rem;">
+                <a href="house-of-debators.html" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05); color:var(--text-secondary); font-size:0.9rem; transition:all 0.3s ease;" id="connect-debators-link">
+                  <span>House of Debators</span>
+                  <span style="color:var(--accent-gold);">→</span>
+                </a>
+                <a href="improv.html" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05); color:var(--text-secondary); font-size:0.9rem; transition:all 0.3s ease;" id="connect-improv-link">
+                  <span>Improv</span>
+                  <span style="color:var(--accent-gold);">→</span>
+                </a>
+                <a href="writers-guild.html" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05); color:var(--text-secondary); font-size:0.9rem; transition:all 0.3s ease;" id="connect-writers-link">
+                  <span>Writer's Guild</span>
+                  <span style="color:var(--accent-gold);">→</span>
+                </a>
+                <a href="quizzers-circuit.html" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05); color:var(--text-secondary); font-size:0.9rem; transition:all 0.3s ease;" id="connect-quizzers-link">
+                  <span>Quizzers Circuit</span>
+                  <span style="color:var(--accent-gold);">→</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Motto -->
+            <div style="background:linear-gradient(135deg, rgba(204,34,0,0.12), rgba(201,168,76,0.08)); border:1px solid var(--border-red); border-radius:4px; padding:1.75rem; text-align:center;">
+              <p style="font-family:var(--font-display); font-style:italic; font-size:1.1rem; color:rgba(255,255,255,0.9); line-height:1.55; margin:0;">"With Inclusion comes Strength."</p>
+              <span style="display:block; margin-top:0.75rem; font-family:var(--font-nav); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-gold);">Crescent Literary Society · Est. 2006</span>
+            </div>
+
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo-wrap">
+              <img src="assets/logo/logo.jpg" alt="Crescent Literary Society" width="46" height="46" loading="lazy">
+              <div>
+                <div class="footer-logo-name">Crescent Literary Society</div>
+                <div class="footer-tagline">est. 2006</div>
+              </div>
+            </div>
+            <p>Where words ignite minds. A family of self-motivated, creative, confident, adventurous and fearless students.</p>
+            <div class="footer-social">
+              <a href="https://instagram.com/crescentlitsociety" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram" id="footer-instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+              <a href="https://facebook.com/crescentlitsociety" target="_blank" rel="noopener" class="footer-social-link" aria-label="Facebook" id="footer-facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title">Navigate</span>
+            <ul class="footer-nav-list">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="house-of-debators.html">House of Debators</a></li>
+              <li><a href="improv.html">Improv &amp; Theatre</a></li>
+              <li><a href="writers-guild.html">Writer's Guild</a></li>
+              <li><a href="quizzers-circuit.html">Quizzers Circuit</a></li>
+              <li><a href="connect.html">Connect</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title">Get In Touch</span>
+            <div class="footer-contact-items">
+              <div class="footer-contact-item">
+                <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <!-- REPLACE: Update with official CLS email address -->
+                <a href="mailto:crescentliterarysociety@crescent.education">crescentliterarysociety@crescent.education</a>
+              </div>
+              <div class="footer-contact-item">
+                <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <a href="https://instagram.com/crescentlitsociety" target="_blank" rel="noopener">@crescentlitsociety</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-inner">
+          <p class="footer-copyright">© 2006–2025 Crescent Literary Society. All rights reserved.</p>
+          <p class="footer-istd" style="font-size:0.78rem; color:rgba(153,153,153,0.55); text-align:center; width:100%;">A part of <a href="https://instagram.com/istd_crescent" target="_blank" rel="noopener" style="color:rgba(200,200,200,0.6); text-decoration:none;">@istd_crescent</a> &middot; B. S. Abdur Rahman Crescent Institute of Science and Technology, Vandalur.</p>
+          <p class="footer-motto">With Inclusion comes Strength.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script src="js/scroll-animations.js"></script>
+  <script>
+    /* ---- Contact form: success state ---- */
+    (function () {
+      const form    = document.getElementById('contact-form');
+      const success = document.getElementById('form-success');
+
+      if (!form || !success) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        /* Basic validation */
+        const name    = document.getElementById('contact-name');
+        const email   = document.getElementById('contact-email');
+        const message = document.getElementById('contact-message');
+
+        if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
+          /* Shake effect on empty required fields */
+          [name, email, message].forEach((field) => {
+            if (!field.value.trim()) {
+              field.style.borderColor = 'var(--accent-red)';
+              setTimeout(() => { field.style.borderColor = ''; }, 2000);
+            }
+          });
+          return;
+        }
+
+        /* Show success state */
+        form.style.opacity = '0';
+        form.style.transform = 'translateY(-10px)';
+        form.style.transition = 'all 0.3s ease';
+
+        setTimeout(() => {
+          form.style.display = 'none';
+          success.style.display = 'block';
+          success.style.animation = 'tabFadeIn 0.5s ease both';
+        }, 300);
+      });
+    })();
+  </script>
+</body>
+</html>
