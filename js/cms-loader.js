@@ -38,9 +38,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const blogContainer = document.getElementById('blog-grid');
     if (blogContainer) {
-      const response = await fetch('data/blog.json');
+      console.log("Found blog-grid, fetching blog.json...");
+      const response = await fetch('data/blog.json?t=' + new Date().getTime());
+      console.log("Fetch response:", response.status);
       if (response.ok) {
         const data = await response.json();
+        console.log("Blog Data:", data);
         if (data.posts && data.posts.length > 0) {
           blogContainer.innerHTML = ''; // Clear loading text
           
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           
           sortedPosts.forEach(post => {
             const card = document.createElement('div');
-            card.className = 'blog-card fade-up';
+            card.className = 'blog-card fade-up visible'; // Add visible immediately so it doesn't get stuck transparent
             
             // Format date
             const dateObj = new Date(post.date);
