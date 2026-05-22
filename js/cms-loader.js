@@ -38,21 +38,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const blogContainer = document.getElementById('blog-grid');
     if (blogContainer) {
-      console.log("Found blog-grid, fetching blog.json...");
-      const response = await fetch('data/blog.json?t=' + new Date().getTime());
-      console.log("Fetch response:", response.status);
-      if (response.ok) {
+      try {
+        const response = await fetch('data/blog.json?t=' + new Date().getTime());
+        if (!response.ok) {
+          blogContainer.innerHTML = `<p style="color:red">Fetch failed: ${response.status} ${response.statusText}</p>`;
+          return;
+        }
+        
         const data = await response.json();
-        console.log("Blog Data:", data);
         if (data.posts && data.posts.length > 0) {
           blogContainer.innerHTML = ''; // Clear loading text
           
-          // Sort by date newest first
           const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
           
           sortedPosts.forEach(post => {
             const card = document.createElement('div');
             card.className = 'blog-card fade-up visible'; // Add visible immediately so it doesn't get stuck transparent
+            card.style.opacity = '1';
+            card.style.transform = 'none';
             
             // Format date
             const dateObj = new Date(post.date);
@@ -79,6 +82,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
           blogContainer.innerHTML = '<p style="text-align:center; width:100%;">No posts yet.</p>';
         }
+      } catch (innerErr) {
+         blogContainer.innerHTML = `<p style="color:red">JS Error: ${innerErr.message}</p>`;
       }
     }
   } catch (err) {
