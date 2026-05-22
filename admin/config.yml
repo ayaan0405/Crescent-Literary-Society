@@ -88,3 +88,43 @@ collections:
             fields:
               - {label: "Image", name: "image", widget: "image"}
               - {label: "Alt Text", name: "altText", widget: "string", required: false}
+
+      - label: "Miraki Magazine"
+        name: "miraki"
+        file: "data/miraki.json"
+        fields:
+          - label: "Issues"
+            name: "posts"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Publish Date", name: "date", widget: "datetime"}
+              - {label: "Author/Editor", name: "author", widget: "string"}
+              - {label: "Cover Image", name: "thumbnail", widget: "image", required: false}
+              - {label: "Summary", name: "body", widget: "markdown"}
+
+      - label: "Crescent Line Newsletter"
+        name: "crescent-line"
+        file: "data/crescent-line.json"
+        fields:
+          - label: "Newsletters"
+            name: "posts"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Publish Date", name: "date", widget: "datetime"}
+              - {label: "Editor", name: "author", widget: "string"}
+              - {label: "Cover Image", name: "thumbnail", widget: "image", required: false}
+              - {label: "Summary", name: "body", widget: "markdown"}
+
+      - label: "Members"
+        name: "members"
+        file: "data/members.json"
+        fields:
+          - label: "Members List"
+            name: "members"
+            widget: "list"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Role", name: "role", widget: "string"}
+              - {label: "Profile Image", name: "image", widget: "image", required: false}

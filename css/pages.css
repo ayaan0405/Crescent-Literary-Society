@@ -94,7 +94,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--accent-gold);
+  color: rgba(201, 168, 76, 0.75);
   margin-bottom: 2.75rem;
 }
 
