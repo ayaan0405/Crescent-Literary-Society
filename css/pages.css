@@ -90,10 +90,11 @@
 
 .hero-motto {
   font-family: var(--font-nav);
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(201, 168, 76, 0.75);
+  color: var(--accent-gold);
   margin-bottom: 2.75rem;
 }
 
@@ -269,13 +270,12 @@
    ========================================================= */
 .page-hero {
   position: relative;
-  height: 55vh;
+  height: 60vh;
   min-height: 400px;
   display: flex;
   align-items: flex-end;
   padding-bottom: 4rem;
   overflow: hidden;
-  margin-top: var(--nav-height);
 }
 
 .page-hero-bg {
