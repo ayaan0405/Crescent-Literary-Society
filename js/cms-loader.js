@@ -30,7 +30,55 @@ document.addEventListener("DOMContentLoaded", async () => {
       initCarousel();
     }
   } catch (err) {
-    console.error("CMS Loader Error:", err);
+    console.error("CMS Loader Error (Carousel):", err);
+  }
+
+  // Blog Loader
+  try {
+    const blogContainer = document.getElementById('blog-grid');
+    if (blogContainer) {
+      const response = await fetch('data/blog.json');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.posts && data.posts.length > 0) {
+          blogContainer.innerHTML = ''; // Clear loading text
+          
+          // Sort by date newest first
+          const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+          
+          sortedPosts.forEach(post => {
+            const card = document.createElement('div');
+            card.className = 'blog-card fade-up';
+            
+            // Format date
+            const dateObj = new Date(post.date);
+            const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            
+            // Fix image path
+            let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
+            if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
+            
+            // Convert markdown to plain text for preview (simple strip)
+            const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
+            
+            card.innerHTML = `
+              <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
+              <div class="blog-content">
+                <span class="blog-date">${dateStr}</span>
+                <h3 class="blog-title">${post.title}</h3>
+                <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
+                <div class="blog-author">— ${post.author || 'Anonymous'}</div>
+              </div>
+            `;
+            blogContainer.appendChild(card);
+          });
+        } else {
+          blogContainer.innerHTML = '<p style="text-align:center; width:100%;">No posts yet.</p>';
+        }
+      }
+    }
+  } catch (err) {
+    console.error("CMS Loader Error (Blog):", err);
   }
 });
 
