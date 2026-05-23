@@ -199,15 +199,6 @@
   flex-wrap: wrap;
 }
 
-/* Buttons on dark bg in about fullwidth */
-.about-fw-content .btn-gold {
-  border-color: rgba(255,255,255,0.85);
-  color: #ffffff;
-}
-.about-fw-content .btn-gold:hover {
-  background: #ffffff;
-  color: #111111;
-}
 
 .motto-tag {
   display: inline-block;
@@ -228,7 +219,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-secondary);
-  border: 1px solid rgba(255,255,255,0.35);
+  border: 1px solid var(--text-secondary);
   border-radius: 2px;
   padding: 0.3rem 0.8rem;
 }
