@@ -62,7 +62,7 @@
 
   /* Borders */
   --border-red:     rgba(139, 0, 0, 0.2);
-  --border-card:    rgba(0, 0, 0, 0.08);
+  --border-card:    rgba(0, 0, 0, 0.12);
   --divider-gold:   rgba(184, 134, 11, 0.2);
 
   /* Overlays */
@@ -312,9 +312,13 @@ section {
   border: 1px solid var(--border-card);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition);
   display: flex;
   flex-direction: column;
+}
+
+[data-theme="light"] .card {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
 }
 
 .card:hover {
