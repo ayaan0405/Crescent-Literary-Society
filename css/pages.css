@@ -134,11 +134,8 @@
    ========================================================= */
 .about-fullwidth {
   position: relative;
-  height: 85vh;
-  min-height: 560px;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
+  padding: 6rem 0 4rem;
+  display: block;
 }
 
 .about-fw-carousel {
@@ -160,22 +157,24 @@
 .about-fw-content {
   position: relative;
   z-index: 2;
-  padding-bottom: 4rem;
   max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .about-fw-content .eyebrow {
-  color: rgba(255,255,255,0.75);
+  color: var(--accent-gold);
 }
 
 .about-fw-content h2 {
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: clamp(2.5rem, 5vw, 4rem);
   margin-bottom: 0.5rem;
 }
 
 .about-fw-content .divider {
-  background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  margin: 1.5rem auto;
 }
 
 .about-lead {
