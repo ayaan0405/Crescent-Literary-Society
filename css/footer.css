@@ -110,7 +110,7 @@
 
 .footer-nav-list a {
   font-family: var(--font-body);
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   color: var(--text-primary);
   transition: color var(--transition), padding-left var(--transition);
 }
