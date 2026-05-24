@@ -895,7 +895,7 @@
 .social-link-handle {
   font-size: 0.88rem;
   color: var(--text-primary);
-  word-break: break-all;
+  word-break: break-word;
   overflow-wrap: anywhere;
 }
 
