@@ -264,7 +264,7 @@
 }
 
 .wwd-card {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius);
   padding: 1.5rem;
@@ -299,7 +299,7 @@
 
 /* Mission banner */
 .mission-banner {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border-top: 1px solid var(--divider-gold);
   border-bottom: 1px solid var(--divider-gold);
   padding: 5rem 0;
@@ -328,7 +328,7 @@
 .page-header-text {
   padding-top: calc(var(--nav-height) + 5rem);
   padding-bottom: 3rem;
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border-bottom: 1px solid var(--divider-gold);
 }
 
@@ -354,7 +354,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border-radius: var(--radius);
   border: 1px solid var(--border-card);
   color: var(--text-secondary);
@@ -379,7 +379,7 @@
 }
 
 .connect-motto-box {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius);
   padding: 1.75rem;
@@ -476,7 +476,7 @@
    STATS BAR
    ========================================================= */
 .stats-bar {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border-top: 1px solid var(--divider-gold);
   border-bottom: 1px solid var(--divider-gold);
   padding: 3.5rem 0;

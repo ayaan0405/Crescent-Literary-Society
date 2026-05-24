@@ -52,8 +52,8 @@
 /* --- Light Theme Overrides --- */
 [data-theme="light"] {
   /* Backgrounds */
-  --bg-primary:    hsl(0, 0%, 98%);
-  --bg-secondary:  hsl(0, 0%, 94%);
+  --bg-primary:    hsl(40, 20%, 93%);
+  --bg-secondary:  hsl(40, 15%, 89%);
   --bg-card:       hsl(0, 0%, 100%);
 
   /* Text */
@@ -317,8 +317,10 @@ section {
   flex-direction: column;
 }
 
-[data-theme="light"] .card {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+[data-theme="light"] .card,
+[data-theme="light"] .wwd-card,
+[data-theme="light"] .post-article {
+  box-shadow: 0 2px 12px hsla(0, 0%, 0%, 0.07);
 }
 
 .card:hover {
