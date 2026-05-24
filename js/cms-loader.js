@@ -139,59 +139,57 @@ const renderBlogGrid = (container, data) => {
     const plainText = getMarkdownText(post.body || '');
 
     const card = document.createElement('a');
-    card.className = 'blog-card fade-up';
+    card.className = 'card blog-card fade-up';
     card.href = postUrl;
     card.style.textDecoration = 'none';
     card.style.color = 'inherit';
-    card.style.display = 'flex';
-    card.style.flexDirection = 'column';
-    card.style.cursor = 'pointer';
 
-    // Build internal elements cleanly and escape dynamic variables
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'card-img-wrap';
+
     const thumbImg = document.createElement('img');
     thumbImg.src = imgSrc;
     thumbImg.alt = post.title || 'Blog thumbnail';
-    thumbImg.className = 'blog-thumb';
+    thumbImg.className = 'card-img';
     thumbImg.loading = 'lazy';
     thumbImg.width = 360;
     thumbImg.height = 200;
-    card.appendChild(thumbImg);
+    imgWrap.appendChild(thumbImg);
+    card.appendChild(imgWrap);
 
     const contentDiv = document.createElement('div');
-    contentDiv.className = 'blog-content';
+    contentDiv.className = 'card-body';
 
     const dateSpan = document.createElement('span');
-    dateSpan.className = 'blog-date';
+    dateSpan.className = 'eyebrow';
+    dateSpan.style.marginBottom = '0.5rem';
     dateSpan.textContent = dateStr;
     contentDiv.appendChild(dateSpan);
 
-    const titleH3 = document.createElement('h3');
-    titleH3.className = 'blog-title';
+    const titleH3 = document.createElement('h4');
     titleH3.textContent = post.title;
     contentDiv.appendChild(titleH3);
 
     const previewP = document.createElement('p');
-    previewP.className = 'blog-body-preview';
     previewP.textContent = `${plainText.substring(0, 150)}...`;
     contentDiv.appendChild(previewP);
 
     const authorDiv = document.createElement('div');
-    authorDiv.className = 'blog-author';
+    authorDiv.style.marginTop = 'auto';
+    authorDiv.style.paddingTop = '1rem';
     authorDiv.style.display = 'flex';
-    authorDiv.style.justify = 'space-between';
+    authorDiv.style.justifyContent = 'space-between';
     authorDiv.style.alignItems = 'center';
 
     const authorSpan = document.createElement('span');
     authorSpan.textContent = `— ${post.author || 'Anonymous'}`;
+    authorSpan.style.fontSize = '0.85rem';
+    authorSpan.style.opacity = '0.8';
     authorDiv.appendChild(authorSpan);
 
     const readSpan = document.createElement('span');
-    readSpan.style.fontFamily = 'var(--font-nav)';
-    readSpan.style.fontSize = '10px';
-    readSpan.style.letterSpacing = '0.1em';
-    readSpan.style.textTransform = 'uppercase';
-    readSpan.style.color = 'var(--accent-gold)';
-    readSpan.textContent = 'Read →';
+    readSpan.className = 'card-link';
+    readSpan.innerHTML = 'Read <span aria-hidden="true">→</span>';
     authorDiv.appendChild(readSpan);
 
     contentDiv.appendChild(authorDiv);
@@ -264,58 +262,57 @@ const renderMiraki = (gridContainer, previewContainer, data) => {
       const plainText = getMarkdownText(post.body || '');
 
       const card = document.createElement('a');
-      card.className = 'blog-card fade-up';
+      card.className = 'card blog-card fade-up';
       card.href = postUrl;
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
-      card.style.display = 'flex';
-      card.style.flexDirection = 'column';
-      card.style.cursor = 'pointer';
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'card-img-wrap';
 
       const thumbImg = document.createElement('img');
       thumbImg.src = imgSrc;
       thumbImg.alt = post.title || 'Issue cover';
-      thumbImg.className = 'blog-thumb';
+      thumbImg.className = 'card-img';
       thumbImg.loading = 'lazy';
       thumbImg.width = 360;
       thumbImg.height = 200;
-      card.appendChild(thumbImg);
+      imgWrap.appendChild(thumbImg);
+      card.appendChild(imgWrap);
 
       const contentDiv = document.createElement('div');
-      contentDiv.className = 'blog-content';
+      contentDiv.className = 'card-body';
 
       const dateSpan = document.createElement('span');
-      dateSpan.className = 'blog-date';
+      dateSpan.className = 'eyebrow';
+      dateSpan.style.marginBottom = '0.5rem';
       dateSpan.textContent = dateStr;
       contentDiv.appendChild(dateSpan);
 
-      const titleH3 = document.createElement('h3');
-      titleH3.className = 'blog-title';
+      const titleH3 = document.createElement('h4');
       titleH3.textContent = post.title;
       contentDiv.appendChild(titleH3);
 
       const previewP = document.createElement('p');
-      previewP.className = 'blog-body-preview';
       previewP.textContent = `${plainText.substring(0, 150)}...`;
       contentDiv.appendChild(previewP);
 
       const authorDiv = document.createElement('div');
-      authorDiv.className = 'blog-author';
+      authorDiv.style.marginTop = 'auto';
+      authorDiv.style.paddingTop = '1rem';
       authorDiv.style.display = 'flex';
-      authorDiv.style.justify = 'space-between';
+      authorDiv.style.justifyContent = 'space-between';
       authorDiv.style.alignItems = 'center';
 
       const authorSpan = document.createElement('span');
       authorSpan.textContent = `— ${post.author || 'Editorial Board'}`;
+      authorSpan.style.fontSize = '0.85rem';
+      authorSpan.style.opacity = '0.8';
       authorDiv.appendChild(authorSpan);
 
       const readSpan = document.createElement('span');
-      readSpan.style.fontFamily = 'var(--font-nav)';
-      readSpan.style.fontSize = '10px';
-      readSpan.style.letterSpacing = '0.1em';
-      readSpan.style.textTransform = 'uppercase';
-      readSpan.style.color = 'var(--accent-gold)';
-      readSpan.textContent = 'Read →';
+      readSpan.className = 'card-link';
+      readSpan.innerHTML = 'Read <span aria-hidden="true">→</span>';
       authorDiv.appendChild(readSpan);
 
       contentDiv.appendChild(authorDiv);
@@ -404,59 +401,57 @@ const renderCrescentLine = (container, data) => {
     }
     const plainText = getMarkdownText(post.body || '');
 
-    const card = document.createElement('a');
-    card.className = 'blog-card fade-up';
+    card.className = 'card blog-card fade-up';
     card.href = postUrl;
     card.style.textDecoration = 'none';
     card.style.color = 'inherit';
-    card.style.display = 'flex';
-    card.style.flexDirection = 'column';
-    card.style.cursor = 'pointer';
+
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'card-img-wrap';
 
     const thumbImg = document.createElement('img');
     thumbImg.src = imgSrc;
     thumbImg.alt = post.title || 'Newsletter cover';
-    thumbImg.className = 'blog-thumb';
+    thumbImg.className = 'card-img';
     thumbImg.loading = 'lazy';
     thumbImg.width = 360;
     thumbImg.height = 200;
-    card.appendChild(thumbImg);
+    imgWrap.appendChild(thumbImg);
+    card.appendChild(imgWrap);
 
     const contentDiv = document.createElement('div');
-    contentDiv.className = 'blog-content';
+    contentDiv.className = 'card-body';
 
     const dateSpan = document.createElement('span');
-    dateSpan.className = 'blog-date';
+    dateSpan.className = 'eyebrow';
+    dateSpan.style.marginBottom = '0.5rem';
     dateSpan.textContent = dateStr;
     contentDiv.appendChild(dateSpan);
 
-    const titleH3 = document.createElement('h3');
-    titleH3.className = 'blog-title';
+    const titleH3 = document.createElement('h4');
     titleH3.textContent = post.title;
     contentDiv.appendChild(titleH3);
 
     const previewP = document.createElement('p');
-    previewP.className = 'blog-body-preview';
     previewP.textContent = `${plainText.substring(0, 150)}...`;
     contentDiv.appendChild(previewP);
 
     const authorDiv = document.createElement('div');
-    authorDiv.className = 'blog-author';
+    authorDiv.style.marginTop = 'auto';
+    authorDiv.style.paddingTop = '1rem';
     authorDiv.style.display = 'flex';
-    authorDiv.style.justify = 'space-between';
+    authorDiv.style.justifyContent = 'space-between';
     authorDiv.style.alignItems = 'center';
 
     const authorSpan = document.createElement('span');
     authorSpan.textContent = `— ${post.author || 'Dean'}`;
+    authorSpan.style.fontSize = '0.85rem';
+    authorSpan.style.opacity = '0.8';
     authorDiv.appendChild(authorSpan);
 
     const readSpan = document.createElement('span');
-    readSpan.style.fontFamily = 'var(--font-nav)';
-    readSpan.style.fontSize = '10px';
-    readSpan.style.letterSpacing = '0.1em';
-    readSpan.style.textTransform = 'uppercase';
-    readSpan.style.color = 'var(--accent-gold)';
-    readSpan.textContent = 'Read →';
+    readSpan.className = 'card-link';
+    readSpan.innerHTML = 'Read <span aria-hidden="true">→</span>';
     authorDiv.appendChild(readSpan);
 
     contentDiv.appendChild(authorDiv);
