@@ -12,6 +12,7 @@
   --bg-primary:    hsl(0, 0%, 4%);
   --bg-secondary:  hsl(0, 0%, 7%);
   --bg-card:       hsl(0, 0%, 8%);
+  --bg-alternate:  hsl(0, 0%, 8%);
 
   /* Text */
   --text-primary:   hsl(0, 0%, 100%);
@@ -55,6 +56,7 @@
   --bg-primary:    hsl(40, 20%, 93%);
   --bg-secondary:  hsl(40, 15%, 89%);
   --bg-card:       hsl(0, 0%, 100%);
+  --bg-alternate:  hsl(40, 15%, 88%);
 
   /* Text */
   --text-primary:   hsl(0, 0%, 7%);
@@ -178,6 +180,7 @@ section {
 
 .bg-secondary { background-color: var(--bg-secondary); }
 .bg-card      { background-color: var(--bg-card); }
+.bg-alternate { background-color: var(--bg-alternate); }
 
 /* Section headers */
 .section-header {
