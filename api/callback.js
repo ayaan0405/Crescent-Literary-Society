@@ -30,10 +30,25 @@ module.exports = async function handler(req, res) {
     res.status(200).send(`
       <script>
         const token = "${token}";
+        
+        // 1. Send modern Decap CMS object format
+        window.opener.postMessage(
+          {
+            type: 'authorization',
+            payload: {
+              token: token,
+              provider: 'github'
+            }
+          },
+          '*'
+        );
+
+        // 2. Send legacy Netlify CMS string format as fallback
         window.opener.postMessage(
           'authorization:github:success:' + JSON.stringify({ token, provider: 'github' }),
           '*'
         );
+
         window.close();
       </script>
     `);
