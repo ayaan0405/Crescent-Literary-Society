@@ -37,6 +37,9 @@
   --footer-heading: #d4af37;
   --footer-text: var(--text-primary);
   --footer-text-muted: var(--text-secondary);
+  --footer-tagline: #d4af37;
+  --footer-motto: rgba(184, 134, 11, 0.6);
+  --footer-divider: rgba(0, 0, 0, 0.05);
 
   /* Typography */
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -76,9 +79,12 @@
   --hero-overlay: hsla(0, 0%, 0%, 0.48);
 
   /* Footer */
-  --footer-heading: hsl(40, 89%, 30%); /* Dark, saturated gold/amber */
-  --footer-text: hsl(30, 15%, 25%);    /* Dark warm brown/charcoal */
-  --footer-text-muted: hsl(30, 15%, 35%); /* Medium-dark warm tone */
+  --footer-heading: hsl(38, 70%, 35%); /* Dark, rich gold/amber */
+  --footer-text: hsl(25, 20%, 25%);    /* Dark warm brown */
+  --footer-text-muted: hsl(25, 15%, 35%); /* Medium-dark warm tone */
+  --footer-tagline: hsl(25, 30%, 30%); /* Warm dark brown for EST. 2006 */
+  --footer-motto: hsl(38, 65%, 32%);   /* Rich dark gold for motto */
+  --footer-divider: hsl(25, 20%, 75%); /* Clear warm grey divider */
 }
 
 /* =========================================================

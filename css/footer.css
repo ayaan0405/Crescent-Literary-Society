@@ -48,7 +48,7 @@
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--footer-heading);
+  color: var(--footer-tagline);
   margin-top: 0.15rem;
 }
 
@@ -156,7 +156,7 @@
 
 /* ---- Bottom bar ---- */
 .footer-bottom {
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--footer-divider);
   padding: 1.5rem 0;
 }
 
@@ -180,8 +180,7 @@
   font-size: 14px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--footer-heading);
-  opacity: 0.8;
+  color: var(--footer-motto);
 }
 
 /* ---- Responsive ---- */
