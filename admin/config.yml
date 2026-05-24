@@ -3,7 +3,7 @@ backend:
   repo: Crescent-Literary-Society/Crescent-Literary-Society
   branch: main
   base_url: https://crescent-literary-society.vercel.app
-  auth_endpoint: api/auth
+  auth_endpoint: /api/auth
 
 local_backend: true
 
