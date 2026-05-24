@@ -48,7 +48,7 @@
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #d4af37;
+  color: var(--footer-heading);
   margin-top: 0.15rem;
 }
 
@@ -57,7 +57,7 @@
   line-height: 1.75;
   max-width: 290px;
   margin-bottom: 1.75rem;
-  color: var(--text-primary);
+  color: var(--footer-text);
 }
 
 /* Social icons */
@@ -74,7 +74,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-secondary);
+  color: var(--footer-text-muted);
   transition: border-color var(--transition), color var(--transition), transform var(--transition);
 }
 
@@ -97,7 +97,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #d4af37;
+  color: var(--footer-heading);
   margin-bottom: 1.5rem;
   display: block;
 }
@@ -111,12 +111,12 @@
 .footer-nav-list a {
   font-family: var(--font-body);
   font-size: 0.92rem;
-  color: var(--text-primary);
-  transition: color var(--transition), padding-left var(--transition);
+  color: var(--footer-text);
+  transition: color 0.2s ease, padding-left var(--transition);
 }
 
 .footer-nav-list a:hover {
-  color: var(--text-primary);
+  color: var(--accent-gold);
   padding-left: 4px;
 }
 
@@ -145,7 +145,7 @@
 .footer-contact-item a,
 .footer-contact-item span {
   font-size: 0.95rem;
-  color: var(--text-primary);
+  color: var(--footer-text);
   transition: color var(--transition);
   line-height: 1.4;
 }
@@ -172,7 +172,7 @@
 
 .footer-copyright {
   font-size: 0.82rem;
-  color: rgba(85, 85, 85, 0.8);
+  color: var(--footer-text-muted);
 }
 
 .footer-motto {
@@ -180,7 +180,8 @@
   font-size: 14px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(184, 134, 11, 0.6);
+  color: var(--footer-heading);
+  opacity: 0.8;
 }
 
 /* ---- Responsive ---- */

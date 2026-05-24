@@ -33,6 +33,11 @@
   /* Overlays */
   --hero-overlay: hsla(0, 0%, 0%, 0.60);
 
+  /* Footer */
+  --footer-heading: #d4af37;
+  --footer-text: var(--text-primary);
+  --footer-text-muted: var(--text-secondary);
+
   /* Typography */
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-nav:     'Cormorant Garamond', Georgia, serif;
@@ -69,6 +74,11 @@
 
   /* Overlays */
   --hero-overlay: hsla(0, 0%, 0%, 0.48);
+
+  /* Footer */
+  --footer-heading: hsl(40, 89%, 30%); /* Dark, saturated gold/amber */
+  --footer-text: hsl(30, 15%, 25%);    /* Dark warm brown/charcoal */
+  --footer-text-muted: hsl(30, 15%, 35%); /* Medium-dark warm tone */
 }
 
 /* =========================================================
