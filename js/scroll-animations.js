@@ -31,6 +31,8 @@
     }
   );
 
+  window.scrollObserver = observer;
+
   /* ---- Observe all .fade-up elements already in DOM ---- */
   const observeAll = () => {
     document.querySelectorAll('.fade-up').forEach((el) => {
