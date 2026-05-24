@@ -333,14 +333,28 @@
     display: none;
   }
 
-  /* Force theme button to use theme colors in mobile menu since it has a solid background */
+  .nav-item-theme {
+    display: block !important;
+  }
+
+  /* Make theme toggle look like a regular mobile link */
   #theme-toggle {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem 0 !important;
+    justify-content: flex-start !important;
+    font-family: var(--font-body) !important;
+    font-size: 1.15rem !important;
+    letter-spacing: 0.08em !important;
     color: var(--text-primary) !important;
-    border: 1px solid var(--border-card) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
   }
 
   #theme-toggle:hover {
-    background: var(--bg-secondary) !important;
+    background: transparent !important;
+    color: var(--accent-gold) !important;
   }
 
   /* Mobile dropdown — always visible when parent is open */
