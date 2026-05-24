@@ -2,7 +2,7 @@ backend:
   name: github
   repo: Crescent-Literary-Society/Crescent-Literary-Society
   branch: main
-  base_url: https://crescent-literary-society.vercel.app
+  base_url: https://crescentliterarysociety.vercel.app
   auth_endpoint: api/auth
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
