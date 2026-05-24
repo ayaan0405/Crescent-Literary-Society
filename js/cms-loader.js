@@ -59,11 +59,20 @@ document.addEventListener("DOMContentLoaded", async () => {
           
           const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
           
-          sortedPosts.forEach(post => {
-            const card = document.createElement('div');
-            card.className = 'blog-card fade-up visible'; // Add visible immediately so it doesn't get stuck transparent
+          sortedPosts.forEach((post, i) => {
+            const originalIdx = data.posts.indexOf(post);
+            const postUrl = `post.html?source=blog&post=${originalIdx}`;
+
+            const card = document.createElement('a');
+            card.className = 'blog-card fade-up visible';
             card.style.opacity = '1';
             card.style.transform = 'none';
+            card.href = postUrl;
+            card.style.textDecoration = 'none';
+            card.style.color = 'inherit';
+            card.style.display = 'flex';
+            card.style.flexDirection = 'column';
+            card.style.cursor = 'pointer';
             
             // Format date
             const dateObj = new Date(post.date);
@@ -82,7 +91,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <span class="blog-date">${dateStr}</span>
                 <h3 class="blog-title">${post.title}</h3>
                 <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
-                <div class="blog-author">— ${post.author || 'Anonymous'}</div>
+                <div class="blog-author" style="display:flex;justify-content:space-between;align-items:center;">
+                  <span>— ${post.author || 'Anonymous'}</span>
+                  <span style="font-family:var(--font-nav);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-gold);">Read →</span>
+                </div>
               </div>
             `;
             blogContainer.appendChild(card);
@@ -146,6 +158,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           if (mirakiContainer) {
             mirakiContainer.innerHTML = '';
             sortedPosts.forEach(post => {
+              const originalIdx = data.posts.indexOf(post);
+              const postUrl = `post.html?source=miraki&post=${originalIdx}`;
               const dateObj = new Date(post.date);
               const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
               let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
@@ -153,15 +167,18 @@ document.addEventListener("DOMContentLoaded", async () => {
               const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
               
               mirakiContainer.innerHTML += `
-                <div class="blog-card fade-up visible" style="opacity: 1; transform: none;">
+                <a href="${postUrl}" class="blog-card fade-up visible" style="opacity:1;transform:none;text-decoration:none;color:inherit;display:flex;flex-direction:column;cursor:pointer;">
                   <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
                   <div class="blog-content">
                     <span class="blog-date">${dateStr}</span>
                     <h3 class="blog-title">${post.title}</h3>
                     <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
-                    <div class="blog-author">— ${post.author || 'Editorial Board'}</div>
+                    <div class="blog-author" style="display:flex;justify-content:space-between;align-items:center;">
+                      <span>— ${post.author || 'Editorial Board'}</span>
+                      <span style="font-family:var(--font-nav);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-gold);">Read →</span>
+                    </div>
                   </div>
-                </div>
+                </a>
               `;
             });
           }
@@ -210,6 +227,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           clContainer.innerHTML = '';
           const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
           sortedPosts.forEach(post => {
+            const originalIdx = data.posts.indexOf(post);
+            const postUrl = `post.html?source=crescent-line&post=${originalIdx}`;
             const dateObj = new Date(post.date);
             const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
             let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
@@ -217,15 +236,18 @@ document.addEventListener("DOMContentLoaded", async () => {
             const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
             
             clContainer.innerHTML += `
-              <div class="blog-card fade-up visible" style="opacity: 1; transform: none;">
+              <a href="${postUrl}" class="blog-card fade-up visible" style="opacity:1;transform:none;text-decoration:none;color:inherit;display:flex;flex-direction:column;cursor:pointer;">
                 <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
                 <div class="blog-content">
                   <span class="blog-date">${dateStr}</span>
                   <h3 class="blog-title">${post.title}</h3>
                   <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
-                  <div class="blog-author">— ${post.author || 'Dean'}</div>
+                  <div class="blog-author" style="display:flex;justify-content:space-between;align-items:center;">
+                    <span>— ${post.author || 'Dean'}</span>
+                    <span style="font-family:var(--font-nav);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-gold);">Read →</span>
+                  </div>
                 </div>
-              </div>
+              </a>
             `;
           });
         } else {
