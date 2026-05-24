@@ -59,7 +59,7 @@ Navigate to: **[http://localhost:8080](http://localhost:8080)**
 
 ## ✍️ CMS Usage
 
-Non-technical administrators can manage all publications and dynamic sliders easily:
+Non-technical administrators can manage all publications and dynamic sliders easily. **Please refer to the comprehensive [Operations Manual](OPERATIONS_MANUAL.md) for full instructions.**
 
 1. Launch your local server and navigate to `/admin/` (or go to `https://crescentliterarysociety.vercel.app/admin/`).
 2. Log in using your authorized GitHub developer credentials.
