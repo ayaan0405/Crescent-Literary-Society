@@ -4,10 +4,6 @@ backend:
   branch: main
   base_url: https://crescent-literary-society.vercel.app
   auth_endpoint: api/auth
-
-local_backend:
-  allowed_hosts: ["localhost", "127.0.0.1"]
-
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
