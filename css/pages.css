@@ -72,20 +72,12 @@
 }
 
 .hero-title {
+  font-size: clamp(3rem, 7.5vw, 6.5rem);
+  font-weight: 700;
   line-height: 1.05;
   color: #ffffff;
   margin-bottom: 1.25rem;
   text-shadow: 0 4px 40px rgba(0,0,0,0.5);
-}
-
-.title-crescent {
-  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
-  font-weight: 400; /* Regular weight */
-}
-
-.title-literary {
-  font-size: clamp(3.5rem, 8.5vw, 7.5rem);
-  font-weight: 700; /* Bold weight */
 }
 
 .hero-tagline {
