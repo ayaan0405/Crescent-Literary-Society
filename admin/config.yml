@@ -130,3 +130,10 @@ collections:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "Role", name: "role", widget: "string"}
               - {label: "Profile Image", name: "image", widget: "image", required: false}
+
+      - label: "About Page Images"
+        name: "about-images"
+        file: "data/about-images.json"
+        fields:
+          - {label: "Hero Banner", name: "heroBanner", widget: "image", required: false, hint: "Full-width banner shown at the top of the About page"}
+          - {label: "Outing Photo", name: "outingPhoto", widget: "image", required: false, hint: "Full-width group photo shown below the mission banner"}

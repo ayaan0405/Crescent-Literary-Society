@@ -235,6 +235,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   } catch (err) {}
 
+  // --- 5. Load About Page Images ---
+  try {
+    const aboutHeroBg = document.querySelector('#about-hero .page-hero-bg');
+    const aboutOutingImg = document.querySelector('section img[alt*="Outing"]');
+    if (aboutHeroBg || aboutOutingImg) {
+      try {
+        const response = await fetch('data/about-images.json?t=' + new Date().getTime());
+        if (response.ok) {
+          const data = await response.json();
+          if (data.heroBanner && data.heroBanner.trim() !== '' && aboutHeroBg) {
+            let src = data.heroBanner.startsWith('/') ? data.heroBanner.substring(1) : data.heroBanner;
+            aboutHeroBg.style.backgroundImage = `url('${src}')`;
+          }
+          if (data.outingPhoto && data.outingPhoto.trim() !== '' && aboutOutingImg) {
+            let src = data.outingPhoto.startsWith('/') ? data.outingPhoto.substring(1) : data.outingPhoto;
+            aboutOutingImg.src = src;
+          }
+        }
+      } catch (innerErr) {}
+    }
+  } catch (err) {}
+
 });
 
 function initCarousel() {
