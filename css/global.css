@@ -9,28 +9,28 @@
 /* --- CSS Custom Properties --- */
 :root {
   /* Backgrounds */
-  --bg-primary:    #0a0a0a;
-  --bg-secondary:  #111111;
-  --bg-card:       #151515;
+  --bg-primary:    hsl(0, 0%, 4%);
+  --bg-secondary:  hsl(0, 0%, 7%);
+  --bg-card:       hsl(0, 0%, 8%);
 
   /* Text */
-  --text-primary:   #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.75);
+  --text-primary:   hsl(0, 0%, 100%);
+  --text-secondary: hsla(0, 0%, 100%, 0.75);
 
   /* Accents */
-  --accent-red:        #8b0000;
-  --accent-red-hover:  #b22222;
-  --accent-gold:       #b8860b;
-  --accent-gold-hover: #daa520;
-  --accent-gold-dim:   rgba(184, 134, 11, 0.1);
+  --accent-red:        hsl(0, 100%, 27%);
+  --accent-red-hover:  hsl(0, 68%, 42%);
+  --accent-gold:       hsl(43, 89%, 38%);
+  --accent-gold-hover: hsl(43, 74%, 49%);
+  --accent-gold-dim:   hsla(43, 89%, 38%, 0.1);
 
   /* Borders */
-  --border-red:     rgba(139, 0, 0, 0.2);
-  --border-card:    rgba(255, 255, 255, 0.08);
-  --divider-gold:   rgba(184, 134, 11, 0.2);
+  --border-red:     hsla(0, 100%, 27%, 0.2);
+  --border-card:    hsla(0, 0%, 100%, 0.08);
+  --divider-gold:   hsla(43, 89%, 38%, 0.2);
 
   /* Overlays */
-  --hero-overlay: rgba(0, 0, 0, 0.60);
+  --hero-overlay: hsla(0, 0%, 0%, 0.60);
 
   /* Typography */
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -52,21 +52,21 @@
 /* --- Light Theme Overrides --- */
 [data-theme="light"] {
   /* Backgrounds */
-  --bg-primary:    #fafafa;
-  --bg-secondary:  #f0f0f0;
-  --bg-card:       #ffffff;
+  --bg-primary:    hsl(0, 0%, 98%);
+  --bg-secondary:  hsl(0, 0%, 94%);
+  --bg-card:       hsl(0, 0%, 100%);
 
   /* Text */
-  --text-primary:   #111111;
-  --text-secondary: #666666;
+  --text-primary:   hsl(0, 0%, 7%);
+  --text-secondary: hsl(0, 0%, 40%);
 
   /* Borders */
-  --border-red:     rgba(139, 0, 0, 0.2);
-  --border-card:    rgba(0, 0, 0, 0.12);
-  --divider-gold:   rgba(184, 134, 11, 0.2);
+  --border-red:     hsla(0, 100%, 27%, 0.2);
+  --border-card:    hsla(0, 0%, 0%, 0.12);
+  --divider-gold:   hsla(43, 89%, 38%, 0.2);
 
   /* Overlays */
-  --hero-overlay: rgba(0, 0, 0, 0.48);
+  --hero-overlay: hsla(0, 0%, 0%, 0.48);
 }
 
 /* =========================================================
@@ -524,3 +524,82 @@ section {
     --section-pad: 50px;
   }
 }
+
+/* =========================================================
+   UTILITIES — SKELETONS, CAROUSEL DOTS & ERRORS
+   ========================================================= */
+
+/* --- Skeleton Shimmering Screens --- */
+.skeleton-card {
+  background: linear-gradient(90deg, 
+    var(--bg-secondary) 25%, var(--bg-card) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  height: 280px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- API Loading State Wrappers --- */
+.load-error, .load-empty { 
+  text-align: center; 
+  color: var(--text-secondary); 
+  padding: 3rem 2rem; 
+  font-family: var(--font-nav);
+  font-size: 1.15rem;
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+/* --- Hero Carousel Dot Indicators --- */
+.hero-carousel-dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.hero-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsla(0, 0%, 100%, 0.35);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.hero-carousel-dot:hover {
+  background: hsla(0, 0%, 100%, 0.65);
+}
+
+.hero-carousel-dot.active {
+  background: var(--accent-gold);
+  transform: scale(1.2);
+}
+
+/* --- Form Client-Side Error Graphics --- */
+.form-group input.invalid,
+.form-group select.invalid,
+.form-group textarea.invalid {
+  border-color: var(--accent-red) !important;
+  box-shadow: 0 0 0 3px hsla(0, 100%, 27%, 0.15) !important;
+}
+
+.form-error-msg {
+  color: var(--accent-red);
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  margin-top: 0.4rem;
+  display: block;
+}
+

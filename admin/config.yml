@@ -19,32 +19,34 @@ collections:
             name: "slides"
             widget: "list"
             fields:
-              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Image", name: "image", widget: "image", description: "Optimize image to max 1920px width, JPG/WebP format for faster page load times."}
               - {label: "Alt Text", name: "altText", widget: "string", required: false}
 
       - label: "Blog Index"
         name: "blog"
         file: "data/blog.json"
+        preview_path: "post.html?slug={{slug}}"
         fields:
           - label: "Posts"
             name: "posts"
             widget: "list"
             fields:
-              - {label: "Title", name: "title", widget: "string"}
-              - {label: "Publish Date", name: "date", widget: "datetime"}
-              - {label: "Author", name: "author", widget: "string"}
-              - {label: "Thumbnail Image", name: "thumbnail", widget: "image", required: false}
-              - {label: "Body", name: "body", widget: "markdown"}
+              - {label: "Title", name: "title", widget: "string", required: true}
+              - {label: "Slug", name: "slug", widget: "string", pattern: ['^[a-z0-9-]+$', 'Lowercase letters, numbers, hyphens only'], hint: "URL-safe identifier. Once set, do not change.", required: true}
+              - {label: "Publish Date", name: "date", widget: "datetime", required: true}
+              - {label: "Author", name: "author", widget: "string", required: true}
+              - {label: "Thumbnail Image", name: "thumbnail", widget: "image", required: false, description: "Optimize thumbnail to max 800px width, JPG/WebP format."}
+              - {label: "Body", name: "body", widget: "markdown", required: true}
 
-      - label: "House of Debators Carousel"
-        name: "debators-carousel"
-        file: "data/debators-carousel.json"
+      - label: "House of Debaters Carousel"
+        name: "debaters-carousel"
+        file: "data/debaters-carousel.json"
         fields:
           - label: "Slides"
             name: "slides"
             widget: "list"
             fields:
-              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Image", name: "image", widget: "image", description: "Optimize slide to max 1920px width, JPG/WebP format."}
               - {label: "Alt Text", name: "altText", widget: "string", required: false}
 
       - label: "Improv Carousel"
@@ -55,7 +57,7 @@ collections:
             name: "slides"
             widget: "list"
             fields:
-              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Image", name: "image", widget: "image", description: "Optimize slide to max 1920px width, JPG/WebP format."}
               - {label: "Alt Text", name: "altText", widget: "string", required: false}
 
       - label: "Writer's Guild Carousel"
@@ -66,7 +68,7 @@ collections:
             name: "slides"
             widget: "list"
             fields:
-              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Image", name: "image", widget: "image", description: "Optimize slide to max 1920px width, JPG/WebP format."}
               - {label: "Alt Text", name: "altText", widget: "string", required: false}
 
       - label: "Quizzers Circuit Carousel"
@@ -77,7 +79,7 @@ collections:
             name: "slides"
             widget: "list"
             fields:
-              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Image", name: "image", widget: "image", description: "Optimize slide to max 1920px width, JPG/WebP format."}
               - {label: "Alt Text", name: "altText", widget: "string", required: false}
 
       - label: "Editorial Board Carousel"
@@ -88,36 +90,40 @@ collections:
             name: "slides"
             widget: "list"
             fields:
-              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Image", name: "image", widget: "image", description: "Optimize slide to max 1920px width, JPG/WebP format."}
               - {label: "Alt Text", name: "altText", widget: "string", required: false}
 
       - label: "Miraki Magazine"
         name: "miraki"
         file: "data/miraki.json"
+        preview_path: "post.html?slug={{slug}}"
         fields:
           - label: "Issues"
             name: "posts"
             widget: "list"
             fields:
-              - {label: "Title", name: "title", widget: "string"}
-              - {label: "Publish Date", name: "date", widget: "datetime"}
-              - {label: "Author/Editor", name: "author", widget: "string"}
-              - {label: "Cover Image", name: "thumbnail", widget: "image", required: false}
-              - {label: "Summary", name: "body", widget: "markdown"}
+              - {label: "Title", name: "title", widget: "string", required: true}
+              - {label: "Slug", name: "slug", widget: "string", pattern: ['^[a-z0-9-]+$', 'Lowercase letters, numbers, hyphens only'], hint: "URL-safe identifier. Once set, do not change.", required: true}
+              - {label: "Publish Date", name: "date", widget: "datetime", required: true}
+              - {label: "Author/Editor", name: "author", widget: "string", required: true}
+              - {label: "Cover Image", name: "thumbnail", widget: "image", required: false, description: "Optimize cover to max 800px width, JPG/WebP format."}
+              - {label: "Summary", name: "body", widget: "markdown", required: true}
 
       - label: "Crescent Line Newsletter"
         name: "crescent-line"
         file: "data/crescent-line.json"
+        preview_path: "post.html?slug={{slug}}"
         fields:
           - label: "Newsletters"
             name: "posts"
             widget: "list"
             fields:
-              - {label: "Title", name: "title", widget: "string"}
-              - {label: "Publish Date", name: "date", widget: "datetime"}
-              - {label: "Editor", name: "author", widget: "string"}
-              - {label: "Cover Image", name: "thumbnail", widget: "image", required: false}
-              - {label: "Summary", name: "body", widget: "markdown"}
+              - {label: "Title", name: "title", widget: "string", required: true}
+              - {label: "Slug", name: "slug", widget: "string", pattern: ['^[a-z0-9-]+$', 'Lowercase letters, numbers, hyphens only'], hint: "URL-safe identifier. Once set, do not change.", required: true}
+              - {label: "Publish Date", name: "date", widget: "datetime", required: true}
+              - {label: "Editor", name: "author", widget: "string", required: true}
+              - {label: "Cover Image", name: "thumbnail", widget: "image", required: false, description: "Optimize cover to max 800px width, JPG/WebP format."}
+              - {label: "Summary", name: "body", widget: "markdown", required: true}
 
       - label: "Members"
         name: "members"
@@ -127,13 +133,13 @@ collections:
             name: "members"
             widget: "list"
             fields:
-              - {label: "Name", name: "name", widget: "string"}
-              - {label: "Role", name: "role", widget: "string"}
-              - {label: "Profile Image", name: "image", widget: "image", required: false}
+              - {label: "Name", name: "name", widget: "string", required: true}
+              - {label: "Role", name: "role", widget: "string", required: true}
+              - {label: "Profile Image", name: "image", widget: "image", required: false, description: "Optimize profile photo to max 400px width, JPG/WebP format."}
 
       - label: "About Page Images"
         name: "about-images"
         file: "data/about-images.json"
         fields:
-          - {label: "Hero Banner", name: "heroBanner", widget: "image", required: false, hint: "Full-width banner shown at the top of the About page"}
-          - {label: "Outing Photo", name: "outingPhoto", widget: "image", required: false, hint: "Full-width group photo shown below the mission banner"}
+          - {label: "Hero Banner", name: "heroBanner", widget: "image", required: false, hint: "Full-width banner shown at the top of the About page. Optimize image to max 1920px width, JPG/WebP format."}
+          - {label: "Outing Photo", name: "outingPhoto", widget: "image", required: false, hint: "Full-width group photo shown below the mission banner. Optimize image to max 1920px width, JPG/WebP format."}

@@ -1,299 +1,628 @@
+/* ================================================
+   cms-loader.js | CLS Website
+   Fetches and renders CMS JSON content dynamically
+   ================================================ */
+
+/* --- Configuration & Utilities --- */
+
+/**
+ * Escapes plain text to prevent XSS injection.
+ * @param {string} str - The raw text to escape
+ * @returns {string} - The escaped HTML string
+ */
+const escapeHTML = (str) => {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+};
+
+/**
+ * Generates a clean URL-safe slug from a title string.
+ * @param {string} title - The title of the post
+ * @returns {string} - The generated slug
+ */
+const generateSlug = (title) => {
+  if (!title) return '';
+  return title.toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+};
+
+/**
+ * Safely extracts plain text from markdown string using textContent extraction.
+ * @param {string} markdownStr - The raw markdown body text
+ * @returns {string} - The plain text extraction
+ */
+const getMarkdownText = (markdownStr) => {
+  if (typeof marked !== 'undefined' && marked.parse) {
+    const temp = document.createElement('div');
+    temp.innerHTML = marked.parse(markdownStr || '');
+    return temp.textContent || '';
+  }
+  return (markdownStr || '').replace(/[#*_\[\]>]/g, '');
+};
+
+/**
+ * Injects skeleton loaders into a list container before fetches start.
+ * @param {HTMLElement} container - The DOM container element
+ * @returns {void}
+ */
+const showSkeletons = (container) => {
+  if (!container) return;
+  container.innerHTML = `
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+  `;
+};
+
+/**
+ * Renders a clean, friendly error state in a container if fetching fails.
+ * @param {HTMLElement} container - The DOM container element
+ * @returns {void}
+ */
+const showError = (container) => {
+  if (!container) return;
+  container.innerHTML = '<p class="load-error">Content unavailable. Please try again later.</p>';
+};
+
+/**
+ * Renders an empty state message in a container if no posts are returned.
+ * @param {HTMLElement} container - The DOM container element
+ * @returns {void}
+ */
+const showEmpty = (container) => {
+  if (!container) return;
+  container.innerHTML = '<p class="load-empty">No content published yet.</p>';
+};
+
+/**
+ * Re-observes newly injected fade-up elements using the global IntersectionObserver.
+ * @returns {void}
+ */
+const reObserveFadeElements = () => {
+  if (window.scrollObserver) {
+    document.querySelectorAll('.fade-up:not(.is-visible)')
+      .forEach(el => window.scrollObserver.observe(el));
+  }
+};
+
+/* --- Render Functions --- */
+
+/**
+ * Renders the hero carousel slides into the container.
+ * @param {HTMLElement} container - The carousel DOM element
+ * @param {object} data - The validated JSON carousel schema
+ * @returns {void}
+ */
+const renderCarousel = (container, data) => {
+  if (!container) return;
+  container.innerHTML = '';
+  data.slides.forEach((slide, index) => {
+    const div = document.createElement('div');
+    div.className = index === 0 ? 'main-hero-bg active' : 'main-hero-bg';
+    let imgSrc = slide.image || 'assets/hero/hero-bg.jpg';
+    if (imgSrc.startsWith('/')) {
+      imgSrc = imgSrc.substring(1);
+    }
+    div.style.backgroundImage = `url('${imgSrc}')`;
+    div.setAttribute('role', 'img');
+    div.setAttribute('aria-label', slide.altText || `Slide ${index + 1}`);
+    container.appendChild(div);
+  });
+
+  if (window.initHeroCarousel) {
+    window.initHeroCarousel();
+  }
+};
+
+/**
+ * Renders the blog posts grid container.
+ * @param {HTMLElement} container - The blog grid element
+ * @param {object} data - The validated blog database
+ * @returns {void}
+ */
+const renderBlogGrid = (container, data) => {
+  if (!container) return;
+  container.innerHTML = '';
+  const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  sortedPosts.forEach((post) => {
+    const slug = post.slug || generateSlug(post.title);
+    const postUrl = `post.html?source=blog&slug=${slug}`;
+    const dateObj = new Date(post.date);
+    const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
+    if (imgSrc.startsWith('/')) {
+      imgSrc = imgSrc.substring(1);
+    }
+    const plainText = getMarkdownText(post.body || '');
+
+    const card = document.createElement('a');
+    card.className = 'blog-card fade-up';
+    card.href = postUrl;
+    card.style.textDecoration = 'none';
+    card.style.color = 'inherit';
+    card.style.display = 'flex';
+    card.style.flexDirection = 'column';
+    card.style.cursor = 'pointer';
+
+    // Build internal elements cleanly and escape dynamic variables
+    const thumbImg = document.createElement('img');
+    thumbImg.src = imgSrc;
+    thumbImg.alt = post.title || 'Blog thumbnail';
+    thumbImg.className = 'blog-thumb';
+    thumbImg.loading = 'lazy';
+    thumbImg.width = 360;
+    thumbImg.height = 200;
+    card.appendChild(thumbImg);
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'blog-content';
+
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'blog-date';
+    dateSpan.textContent = dateStr;
+    contentDiv.appendChild(dateSpan);
+
+    const titleH3 = document.createElement('h3');
+    titleH3.className = 'blog-title';
+    titleH3.textContent = post.title;
+    contentDiv.appendChild(titleH3);
+
+    const previewP = document.createElement('p');
+    previewP.className = 'blog-body-preview';
+    previewP.textContent = `${plainText.substring(0, 150)}...`;
+    contentDiv.appendChild(previewP);
+
+    const authorDiv = document.createElement('div');
+    authorDiv.className = 'blog-author';
+    authorDiv.style.display = 'flex';
+    authorDiv.style.justify = 'space-between';
+    authorDiv.style.alignItems = 'center';
+
+    const authorSpan = document.createElement('span');
+    authorSpan.textContent = `— ${post.author || 'Anonymous'}`;
+    authorDiv.appendChild(authorSpan);
+
+    const readSpan = document.createElement('span');
+    readSpan.style.fontFamily = 'var(--font-nav)';
+    readSpan.style.fontSize = '10px';
+    readSpan.style.letterSpacing = '0.1em';
+    readSpan.style.textTransform = 'uppercase';
+    readSpan.style.color = 'var(--accent-gold)';
+    readSpan.textContent = 'Read →';
+    authorDiv.appendChild(readSpan);
+
+    contentDiv.appendChild(authorDiv);
+    card.appendChild(contentDiv);
+    container.appendChild(card);
+  });
+};
+
+/**
+ * Renders the members list in the grid layout.
+ * @param {HTMLElement} container - The members grid element
+ * @param {object} data - The members listing data
+ * @returns {void}
+ */
+const renderMembersGrid = (container, data) => {
+  if (!container) return;
+  container.innerHTML = '';
+  data.members.forEach((member, i) => {
+    const delayClass = i % 3 === 1 ? 'delay-1' : (i % 3 === 2 ? 'delay-2' : '');
+    let imgSrc = member.image || 'assets/members/member-placeholder.jpg';
+    if (imgSrc.startsWith('/')) {
+      imgSrc = imgSrc.substring(1);
+    }
+
+    const card = document.createElement('div');
+    card.className = `member-card fade-up ${delayClass}`.trim();
+
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.alt = member.name || 'Member profile';
+    img.loading = 'lazy';
+    img.width = 150;
+    img.height = 150;
+    card.appendChild(img);
+
+    const nameH4 = document.createElement('h4');
+    nameH4.textContent = member.name;
+    card.appendChild(nameH4);
+
+    const roleSpan = document.createElement('span');
+    roleSpan.className = 'member-role';
+    roleSpan.textContent = member.role;
+    card.appendChild(roleSpan);
+
+    container.appendChild(card);
+  });
+};
+
+/**
+ * Renders the Miraki grid and latest preview panel.
+ * @param {HTMLElement} gridContainer - The grid element
+ * @param {HTMLElement} previewContainer - The preview header container
+ * @param {object} data - The Miraki issues data
+ * @returns {void}
+ */
+const renderMiraki = (gridContainer, previewContainer, data) => {
+  const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  if (gridContainer) {
+    gridContainer.innerHTML = '';
+    sortedPosts.forEach((post) => {
+      const slug = post.slug || generateSlug(post.title);
+      const postUrl = `post.html?source=miraki&slug=${slug}`;
+      const dateObj = new Date(post.date);
+      const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
+      if (imgSrc.startsWith('/')) {
+        imgSrc = imgSrc.substring(1);
+      }
+      const plainText = getMarkdownText(post.body || '');
+
+      const card = document.createElement('a');
+      card.className = 'blog-card fade-up';
+      card.href = postUrl;
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.cursor = 'pointer';
+
+      const thumbImg = document.createElement('img');
+      thumbImg.src = imgSrc;
+      thumbImg.alt = post.title || 'Issue cover';
+      thumbImg.className = 'blog-thumb';
+      thumbImg.loading = 'lazy';
+      thumbImg.width = 360;
+      thumbImg.height = 200;
+      card.appendChild(thumbImg);
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'blog-content';
+
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'blog-date';
+      dateSpan.textContent = dateStr;
+      contentDiv.appendChild(dateSpan);
+
+      const titleH3 = document.createElement('h3');
+      titleH3.className = 'blog-title';
+      titleH3.textContent = post.title;
+      contentDiv.appendChild(titleH3);
+
+      const previewP = document.createElement('p');
+      previewP.className = 'blog-body-preview';
+      previewP.textContent = `${plainText.substring(0, 150)}...`;
+      contentDiv.appendChild(previewP);
+
+      const authorDiv = document.createElement('div');
+      authorDiv.className = 'blog-author';
+      authorDiv.style.display = 'flex';
+      authorDiv.style.justify = 'space-between';
+      authorDiv.style.alignItems = 'center';
+
+      const authorSpan = document.createElement('span');
+      authorSpan.textContent = `— ${post.author || 'Editorial Board'}`;
+      authorDiv.appendChild(authorSpan);
+
+      const readSpan = document.createElement('span');
+      readSpan.style.fontFamily = 'var(--font-nav)';
+      readSpan.style.fontSize = '10px';
+      readSpan.style.letterSpacing = '0.1em';
+      readSpan.style.textTransform = 'uppercase';
+      readSpan.style.color = 'var(--accent-gold)';
+      readSpan.textContent = 'Read →';
+      authorDiv.appendChild(readSpan);
+
+      contentDiv.appendChild(authorDiv);
+      card.appendChild(contentDiv);
+      gridContainer.appendChild(card);
+    });
+  }
+
+  if (previewContainer && sortedPosts.length > 0) {
+    const latest = sortedPosts[0];
+    let imgSrc = latest.thumbnail || 'assets/magazine/obverse-cover.jpg';
+    if (imgSrc.startsWith('/')) {
+      imgSrc = imgSrc.substring(1);
+    }
+    const plainText = getMarkdownText(latest.body || '');
+
+    previewContainer.innerHTML = '';
+    previewContainer.style.display = 'flex';
+    previewContainer.style.gap = '2rem';
+
+    const imgWrap = document.createElement('div');
+    imgWrap.style.flexShrink = '0';
+    imgWrap.style.width = '90px';
+
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.alt = latest.title || 'Latest cover';
+    img.style.width = '90px';
+    img.style.borderRadius = '4px';
+    img.style.boxShadow = '0 8px 30px rgba(0,0,0,0.5)';
+    img.loading = 'lazy';
+    img.width = 90;
+    img.height = 130;
+    imgWrap.appendChild(img);
+
+    const descWrap = document.createElement('div');
+
+    const eyebrowSpan = document.createElement('span');
+    eyebrowSpan.className = 'eyebrow';
+    eyebrowSpan.style.marginBottom = '0.4rem';
+    eyebrowSpan.textContent = 'Latest Magazine Issue';
+    descWrap.appendChild(eyebrowSpan);
+
+    const titleH3 = document.createElement('h3');
+    titleH3.style.fontSize = '1.4rem';
+    titleH3.style.marginBottom = '0.5rem';
+    titleH3.textContent = latest.title;
+    descWrap.appendChild(titleH3);
+
+    const textP = document.createElement('p');
+    textP.style.fontSize = '0.95rem';
+    textP.textContent = `${plainText.substring(0, 200)}...`;
+    descWrap.appendChild(textP);
+
+    const infoP = document.createElement('p');
+    infoP.style.fontSize = '0.85rem';
+    infoP.style.marginTop = '0.75rem';
+    infoP.style.color = 'rgba(153,153,153,0.7)';
+    infoP.textContent = `Published: ${new Date(latest.date).toLocaleDateString()} · By: ${latest.author || 'Editorial Board'}`;
+    descWrap.appendChild(infoP);
+
+    previewContainer.appendChild(imgWrap);
+    previewContainer.appendChild(descWrap);
+  }
+};
+
+/**
+ * Renders the Crescent Line newsletter elements.
+ * @param {HTMLElement} container - The newsletters grid element
+ * @param {object} data - The newsletters listing database
+ * @returns {void}
+ */
+const renderCrescentLine = (container, data) => {
+  if (!container) return;
+  container.innerHTML = '';
+  const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  sortedPosts.forEach((post) => {
+    const slug = post.slug || generateSlug(post.title);
+    const postUrl = `post.html?source=crescent-line&slug=${slug}`;
+    const dateObj = new Date(post.date);
+    const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
+    if (imgSrc.startsWith('/')) {
+      imgSrc = imgSrc.substring(1);
+    }
+    const plainText = getMarkdownText(post.body || '');
+
+    const card = document.createElement('a');
+    card.className = 'blog-card fade-up';
+    card.href = postUrl;
+    card.style.textDecoration = 'none';
+    card.style.color = 'inherit';
+    card.style.display = 'flex';
+    card.style.flexDirection = 'column';
+    card.style.cursor = 'pointer';
+
+    const thumbImg = document.createElement('img');
+    thumbImg.src = imgSrc;
+    thumbImg.alt = post.title || 'Newsletter cover';
+    thumbImg.className = 'blog-thumb';
+    thumbImg.loading = 'lazy';
+    thumbImg.width = 360;
+    thumbImg.height = 200;
+    card.appendChild(thumbImg);
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'blog-content';
+
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'blog-date';
+    dateSpan.textContent = dateStr;
+    contentDiv.appendChild(dateSpan);
+
+    const titleH3 = document.createElement('h3');
+    titleH3.className = 'blog-title';
+    titleH3.textContent = post.title;
+    contentDiv.appendChild(titleH3);
+
+    const previewP = document.createElement('p');
+    previewP.className = 'blog-body-preview';
+    previewP.textContent = `${plainText.substring(0, 150)}...`;
+    contentDiv.appendChild(previewP);
+
+    const authorDiv = document.createElement('div');
+    authorDiv.className = 'blog-author';
+    authorDiv.style.display = 'flex';
+    authorDiv.style.justify = 'space-between';
+    authorDiv.style.alignItems = 'center';
+
+    const authorSpan = document.createElement('span');
+    authorSpan.textContent = `— ${post.author || 'Dean'}`;
+    authorDiv.appendChild(authorSpan);
+
+    const readSpan = document.createElement('span');
+    readSpan.style.fontFamily = 'var(--font-nav)';
+    readSpan.style.fontSize = '10px';
+    readSpan.style.letterSpacing = '0.1em';
+    readSpan.style.textTransform = 'uppercase';
+    readSpan.style.color = 'var(--accent-gold)';
+    readSpan.textContent = 'Read →';
+    authorDiv.appendChild(readSpan);
+
+    contentDiv.appendChild(authorDiv);
+    card.appendChild(contentDiv);
+    container.appendChild(card);
+  });
+};
+
+/**
+ * Updates About page background banners and group photography.
+ * @param {HTMLElement} heroBg - The page-hero container element
+ * @param {HTMLImageElement} outingImg - The group outing image element
+ * @param {object} data - The images catalog JSON
+ * @returns {void}
+ */
+const renderAboutImages = (heroBg, outingImg, data) => {
+  if (data.heroBanner && data.heroBanner.trim() !== '' && heroBg) {
+    let src = data.heroBanner.startsWith('/') ? data.heroBanner.substring(1) : data.heroBanner;
+    heroBg.style.backgroundImage = `url('${src}')`;
+  }
+  if (data.outingPhoto && data.outingPhoto.trim() !== '' && outingImg) {
+    let src = data.outingPhoto.startsWith('/') ? data.outingPhoto.substring(1) : data.outingPhoto;
+    outingImg.src = src;
+  }
+};
+
+/* --- Main Controller --- */
+
 document.addEventListener("DOMContentLoaded", async () => {
-  try {
+  // Select DOM targets
+  const carouselContainer = document.getElementById('hero-carousel');
+  const blogContainer = document.getElementById('blog-grid');
+  const membersContainer = document.getElementById('members-grid');
+  const mirakiContainer = document.getElementById('miraki-grid');
+  const latestMagazinePreview = document.getElementById('latest-magazine-preview');
+  const clContainer = document.getElementById('crescent-line-grid');
+  const aboutHeroBg = document.querySelector('#about-hero .page-hero-bg');
+  const aboutOutingImg = document.querySelector('section img[alt*="Outing"]');
+
+  // Insert skeletons before starting requests
+  showSkeletons(blogContainer);
+  showSkeletons(membersContainer);
+  showSkeletons(mirakiContainer);
+  showSkeletons(clContainer);
+
+  const fetchTasks = [];
+
+  // Determine carousel path
+  if (carouselContainer) {
     let carouselFile = 'data/carousel.json';
     const path = window.location.pathname;
-    if (path.includes('house-of-debators')) carouselFile = 'data/debators-carousel.json';
-    else if (path.includes('improv')) carouselFile = 'data/improv-carousel.json';
-    else if (path.includes('writers-guild')) carouselFile = 'data/writers-carousel.json';
-    else if (path.includes('quizzers-circuit')) carouselFile = 'data/quizzers-carousel.json';
-    else if (path.includes('editorial-board')) carouselFile = 'data/editorial-carousel.json';
+    if (path.includes('house-of-debaters')) {
+      carouselFile = 'data/debaters-carousel.json';
+    } else if (path.includes('improv')) {
+      carouselFile = 'data/improv-carousel.json';
+    } else if (path.includes('writers-guild')) {
+      carouselFile = 'data/writers-carousel.json';
+    } else if (path.includes('quizzers-circuit')) {
+      carouselFile = 'data/quizzers-carousel.json';
+    } else if (path.includes('editorial-board')) {
+      carouselFile = 'data/editorial-carousel.json';
+    }
 
-    const response = await fetch(carouselFile + '?t=' + new Date().getTime());
-    if (response.ok) {
+    fetchTasks.push({
+      url: `${carouselFile}?t=${Date.now()}`,
+      container: carouselContainer,
+      validate: (data) => data && Array.isArray(data.slides),
+      render: (data) => renderCarousel(carouselContainer, data)
+    });
+  }
+
+  // Blog Task
+  if (blogContainer) {
+    fetchTasks.push({
+      url: `data/blog.json?t=${Date.now()}`,
+      container: blogContainer,
+      validate: (data) => data && Array.isArray(data.posts),
+      render: (data) => {
+        if (data.posts.length === 0) {
+          showEmpty(blogContainer);
+        } else {
+          renderBlogGrid(blogContainer, data);
+        }
+      }
+    });
+  }
+
+  // Members Task
+  if (membersContainer) {
+    fetchTasks.push({
+      url: `data/members.json?t=${Date.now()}`,
+      container: membersContainer,
+      validate: (data) => data && Array.isArray(data.members),
+      render: (data) => {
+        if (data.members.length === 0) {
+          showEmpty(membersContainer);
+        } else {
+          renderMembersGrid(membersContainer, data);
+        }
+      }
+    });
+  }
+
+  // Miraki / Writers Guild Task
+  if (mirakiContainer || latestMagazinePreview) {
+    fetchTasks.push({
+      url: `data/miraki.json?t=${Date.now()}`,
+      container: mirakiContainer || latestMagazinePreview,
+      validate: (data) => data && Array.isArray(data.posts),
+      render: (data) => {
+        if (data.posts.length === 0) {
+          if (mirakiContainer) showEmpty(mirakiContainer);
+        } else {
+          renderMiraki(mirakiContainer, latestMagazinePreview, data);
+        }
+      }
+    });
+  }
+
+  // Crescent Line Task
+  if (clContainer) {
+    fetchTasks.push({
+      url: `data/crescent-line.json?t=${Date.now()}`,
+      container: clContainer,
+      validate: (data) => data && Array.isArray(data.posts),
+      render: (data) => {
+        if (data.posts.length === 0) {
+          showEmpty(clContainer);
+        } else {
+          renderCrescentLine(clContainer, data);
+        }
+      }
+    });
+  }
+
+  // About Images Task
+  if (aboutHeroBg || aboutOutingImg) {
+    fetchTasks.push({
+      url: `data/about-images.json?t=${Date.now()}`,
+      container: null,
+      validate: (data) => data && (data.heroBanner !== undefined || data.outingPhoto !== undefined),
+      render: (data) => renderAboutImages(aboutHeroBg, aboutOutingImg, data)
+    });
+  }
+
+  // Execute all fetches in parallel using Promise.allSettled()
+  const promises = fetchTasks.map(async (task) => {
+    try {
+      const response = await fetch(task.url);
+      if (!response.ok) {
+        throw new Error(`Fetch failed with status ${response.status}`);
+      }
       const data = await response.json();
-    
-    const carouselContainer = document.getElementById('hero-carousel');
-    if (carouselContainer && data.slides && data.slides.length > 0) {
-      // Clear existing hardcoded slides
-      carouselContainer.innerHTML = '';
-      
-      // Inject CMS slides
-      data.slides.forEach((slide, index) => {
-        const div = document.createElement('div');
-        div.className = index === 0 ? 'main-hero-bg active' : 'main-hero-bg';
-        // Handle path resolution: Decap CMS might save absolute paths like /assets/uploads/...
-        // or relative like assets/uploads/... 
-        let imgSrc = slide.image;
-        if (imgSrc.startsWith('/')) {
-            imgSrc = imgSrc.substring(1);
-        }
-        
-        div.style.backgroundImage = `url('${imgSrc}')`;
-        div.setAttribute('role', 'img');
-        div.setAttribute('aria-label', slide.altText || `Slide ${index + 1}`);
-        carouselContainer.appendChild(div);
-      });
-      
-      // Re-init carousel logic since DOM changed
-      initCarousel();
-    }
-    }
-  } catch (err) {
-    console.error("CMS Loader Error (Carousel):", err);
-  }
-
-  // Blog Loader
-  try {
-    const blogContainer = document.getElementById('blog-grid');
-    if (blogContainer) {
-      try {
-        const response = await fetch('data/blog.json?t=' + new Date().getTime());
-        if (!response.ok) {
-          blogContainer.innerHTML = `<p style="color:red">Fetch failed: ${response.status} ${response.statusText}</p>`;
-          return;
-        }
-        
-        const data = await response.json();
-        if (data.posts && data.posts.length > 0) {
-          blogContainer.innerHTML = ''; // Clear loading text
-          
-          const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-          
-          sortedPosts.forEach((post, i) => {
-            const originalIdx = data.posts.indexOf(post);
-            const postUrl = `post.html?source=blog&post=${originalIdx}`;
-
-            const card = document.createElement('a');
-            card.className = 'blog-card fade-up visible';
-            card.style.opacity = '1';
-            card.style.transform = 'none';
-            card.href = postUrl;
-            card.style.textDecoration = 'none';
-            card.style.color = 'inherit';
-            card.style.display = 'flex';
-            card.style.flexDirection = 'column';
-            card.style.cursor = 'pointer';
-            
-            // Format date
-            const dateObj = new Date(post.date);
-            const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            
-            // Fix image path
-            let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
-            if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
-            
-            // Convert markdown to plain text for preview (simple strip)
-            const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
-            
-            card.innerHTML = `
-              <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
-              <div class="blog-content">
-                <span class="blog-date">${dateStr}</span>
-                <h3 class="blog-title">${post.title}</h3>
-                <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
-                <div class="blog-author" style="display:flex;justify-content:space-between;align-items:center;">
-                  <span>— ${post.author || 'Anonymous'}</span>
-                  <span style="font-family:var(--font-nav);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-gold);">Read →</span>
-                </div>
-              </div>
-            `;
-            blogContainer.appendChild(card);
-          });
-        } else {
-          blogContainer.innerHTML = '<p style="text-align:center; width:100%;">No posts yet.</p>';
-        }
-      } catch (innerErr) {
-         blogContainer.innerHTML = `<p style="color:red">JS Error: ${innerErr.message}</p>`;
+      if (!task.validate(data)) {
+        throw new Error("JSON response validation failed");
+      }
+      task.render(data);
+    } catch (err) {
+      if (task.container) {
+        showError(task.container);
       }
     }
-  } catch (err) {
-    console.error("CMS Loader Error (Blog):", err);
-  }
+  });
 
-  // --- 2. Load Members ---
-  try {
-    const membersContainer = document.getElementById('members-grid');
-    if (membersContainer) {
-      try {
-        const response = await fetch('data/members.json?t=' + new Date().getTime());
-        if (!response.ok) throw new Error("Fetch failed: " + response.status);
-        const data = await response.json();
-        
-        if (data.members && data.members.length > 0) {
-          membersContainer.innerHTML = ''; // clear
-          data.members.forEach((member, i) => {
-            const delayClass = i % 3 === 1 ? 'delay-1' : (i % 3 === 2 ? 'delay-2' : '');
-            let imgSrc = member.image || 'assets/members/member-placeholder.jpg';
-            if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
-            
-            membersContainer.innerHTML += `
-              <div class="member-card fade-up visible ${delayClass}" style="opacity: 1; transform: none;">
-                <img src="${imgSrc}" alt="${member.name}" loading="lazy">
-                <h4>${member.name}</h4>
-                <span class="member-role">${member.role}</span>
-              </div>
-            `;
-          });
-        } else {
-          membersContainer.innerHTML = '<p>No members found.</p>';
-        }
-      } catch (innerErr) {
-        membersContainer.innerHTML = `<p style="color:red">JS Error: ${innerErr.message}</p>`;
-      }
-    }
-  } catch (err) {}
+  await Promise.allSettled(promises);
 
-  // --- 3. Load Miraki ---
-  try {
-    const mirakiContainer = document.getElementById('miraki-grid');
-    if (mirakiContainer) {
-      try {
-        const response = await fetch('data/miraki.json?t=' + new Date().getTime());
-        if (!response.ok) throw new Error("Fetch failed: " + response.status);
-        const data = await response.json();
-        
-        if (data.posts && data.posts.length > 0) {
-          const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-          
-          if (mirakiContainer) {
-            mirakiContainer.innerHTML = '';
-            sortedPosts.forEach(post => {
-              const originalIdx = data.posts.indexOf(post);
-              const postUrl = `post.html?source=miraki&post=${originalIdx}`;
-              const dateObj = new Date(post.date);
-              const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-              let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
-              if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
-              const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
-              
-              mirakiContainer.innerHTML += `
-                <a href="${postUrl}" class="blog-card fade-up visible" style="opacity:1;transform:none;text-decoration:none;color:inherit;display:flex;flex-direction:column;cursor:pointer;">
-                  <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
-                  <div class="blog-content">
-                    <span class="blog-date">${dateStr}</span>
-                    <h3 class="blog-title">${post.title}</h3>
-                    <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
-                    <div class="blog-author" style="display:flex;justify-content:space-between;align-items:center;">
-                      <span>— ${post.author || 'Editorial Board'}</span>
-                      <span style="font-family:var(--font-nav);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-gold);">Read →</span>
-                    </div>
-                  </div>
-                </a>
-              `;
-            });
-          }
-          
-          // Auto-update the preview in Writers Guild page
-          const previewContainer = document.getElementById('latest-magazine-preview');
-          if (previewContainer) {
-            const latest = sortedPosts[0];
-            let imgSrc = latest.thumbnail || 'assets/magazine/obverse-cover.jpg';
-            if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
-            const plainText = latest.body ? latest.body.replace(/[#*_\[\]>]/g, '') : '';
-            
-            previewContainer.innerHTML = `
-              <div style="flex-shrink:0; width:90px;">
-                <img src="${imgSrc}" alt="${latest.title}" style="width:90px; border-radius:4px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" loading="lazy">
-              </div>
-              <div>
-                <span class="eyebrow" style="margin-bottom:0.4rem;">Latest Magazine Issue</span>
-                <h3 style="font-size:1.4rem; margin-bottom:0.5rem;">${latest.title}</h3>
-                <p style="font-size:0.95rem;">${plainText.substring(0, 200)}...</p>
-                <p style="font-size:0.85rem; margin-top:0.75rem; color:rgba(153,153,153,0.7);">
-                  Published: ${new Date(latest.date).toLocaleDateString()} &middot; By: ${latest.author || 'Editorial Board'}
-                </p>
-              </div>
-            `;
-          }
-        } else {
-          if (mirakiContainer) {
-            mirakiContainer.innerHTML = '<p style="text-align:center; width:100%;">No issues yet.</p>';
-          }
-        }
-      } catch (innerErr) {}
-    }
-  } catch (err) {}
-
-  // --- 4. Load Crescent Line ---
-  try {
-    const clContainer = document.getElementById('crescent-line-grid');
-    if (clContainer) {
-      try {
-        const response = await fetch('data/crescent-line.json?t=' + new Date().getTime());
-        if (!response.ok) throw new Error("Fetch failed: " + response.status);
-        const data = await response.json();
-        
-        if (data.posts && data.posts.length > 0) {
-          clContainer.innerHTML = '';
-          const sortedPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-          sortedPosts.forEach(post => {
-            const originalIdx = data.posts.indexOf(post);
-            const postUrl = `post.html?source=crescent-line&post=${originalIdx}`;
-            const dateObj = new Date(post.date);
-            const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            let imgSrc = post.thumbnail || 'assets/hero/hero-bg.jpg';
-            if (imgSrc.startsWith('/')) imgSrc = imgSrc.substring(1);
-            const plainText = post.body ? post.body.replace(/[#*_\[\]>]/g, '') : '';
-            
-            clContainer.innerHTML += `
-              <a href="${postUrl}" class="blog-card fade-up visible" style="opacity:1;transform:none;text-decoration:none;color:inherit;display:flex;flex-direction:column;cursor:pointer;">
-                <img src="${imgSrc}" alt="${post.title}" class="blog-thumb" loading="lazy">
-                <div class="blog-content">
-                  <span class="blog-date">${dateStr}</span>
-                  <h3 class="blog-title">${post.title}</h3>
-                  <p class="blog-body-preview">${plainText.substring(0, 150)}...</p>
-                  <div class="blog-author" style="display:flex;justify-content:space-between;align-items:center;">
-                    <span>— ${post.author || 'Dean'}</span>
-                    <span style="font-family:var(--font-nav);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-gold);">Read →</span>
-                  </div>
-                </div>
-              </a>
-            `;
-          });
-        } else {
-          clContainer.innerHTML = '<p style="text-align:center; width:100%;">No newsletters yet.</p>';
-        }
-      } catch (innerErr) {}
-    }
-  } catch (err) {}
-
-  // --- 5. Load About Page Images ---
-  try {
-    const aboutHeroBg = document.querySelector('#about-hero .page-hero-bg');
-    const aboutOutingImg = document.querySelector('section img[alt*="Outing"]');
-    if (aboutHeroBg || aboutOutingImg) {
-      try {
-        const response = await fetch('data/about-images.json?t=' + new Date().getTime());
-        if (response.ok) {
-          const data = await response.json();
-          if (data.heroBanner && data.heroBanner.trim() !== '' && aboutHeroBg) {
-            let src = data.heroBanner.startsWith('/') ? data.heroBanner.substring(1) : data.heroBanner;
-            aboutHeroBg.style.backgroundImage = `url('${src}')`;
-          }
-          if (data.outingPhoto && data.outingPhoto.trim() !== '' && aboutOutingImg) {
-            let src = data.outingPhoto.startsWith('/') ? data.outingPhoto.substring(1) : data.outingPhoto;
-            aboutOutingImg.src = src;
-          }
-        }
-      } catch (innerErr) {}
-    }
-  } catch (err) {}
-
+  // Content is injected, trigger animations re-observation
+  reObserveFadeElements();
 });
-
-function initCarousel() {
-  const slides = document.querySelectorAll(".hero-carousel .main-hero-bg");
-  if (slides.length <= 1) return;
-
-  // Clear existing interval if any (from carousel.js)
-  if (window.heroCarouselInterval) clearInterval(window.heroCarouselInterval);
-
-  let currentSlide = 0;
-  const slideInterval = 5000;
-
-  window.heroCarouselInterval = setInterval(() => {
-    slides[currentSlide].classList.remove("active");
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add("active");
-  }, slideInterval);
-}
